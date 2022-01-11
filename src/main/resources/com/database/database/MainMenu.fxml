@@ -96,6 +96,11 @@
                   <Image url="@Instagram_logo.png" />
                </image>
             </ImageView>
+            <Button layoutX="133.0" layoutY="495.0" mnemonicParsing="false" onAction="#Customer" prefHeight="51.0" prefWidth="135.0" style="-fx-background-color: af4626;" text="Customers" textFill="WHITE">
+               <font>
+                  <Font name="Bodoni MT Condensed Bold" size="24.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
       <AnchorPane layoutY="5.0" prefHeight="600.0" prefWidth="400.0">
