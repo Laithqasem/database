@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: fdc623;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.database.database.SuppliesSearchWindow">
+   <children>
+      <TableView fx:id="table" layoutX="312.0" layoutY="175.0" prefHeight="324.0" prefWidth="480.0">
+        <columns>
+          <TableColumn fx:id="TypeIDCol" prefWidth="120.0" text="TypeID" />
+          <TableColumn fx:id="TypeNameCol" prefWidth="120.0" text="TypeName" />
+            <TableColumn fx:id="QuantityCol" prefWidth="120.0" text="Quantity" />
+            <TableColumn fx:id="ExpiredDateCol" prefWidth="120.0" text="ExpiredDate" />
+        </columns>
+      </TableView>
+      <Button layoutX="70.0" layoutY="533.0" mnemonicParsing="false" onAction="#BAck" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: af4626;" text="Back" textFill="WHITE">
+         <font>
+            <Font name="Bodoni MT Condensed" size="24.0" />
+         </font>
+      </Button>
+      <Button layoutX="502.0" layoutY="533.0" mnemonicParsing="false" onAction="#Search" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: af4626;" text="Search" textFill="WHITE">
+         <font>
+            <Font name="Bodoni MT Condensed" size="24.0" />
+         </font>
+      </Button>
+      <ImageView fx:id="background" fitHeight="284.0" fitWidth="286.0" layoutX="-4.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@oregano.png" />
+         </image>
+      </ImageView>
+      <VBox layoutX="20.0" layoutY="253.0" prefHeight="246.0" prefWidth="300.0">
+         <children>
+            <HBox prefHeight="50.0" prefWidth="280.0">
+               <children>
+                  <RadioButton fx:id="radioId" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="TypeID" textFill="WHITE">
+                     <font>
+                        <Font name="Bodoni MT Condensed" size="18.0" />
+                     </font>
+                  </RadioButton>
+                  <TextField fx:id="TypeID" alignment="CENTER" prefHeight="51.0" prefWidth="180.0" promptText="Only Digit" />
+               </children>
+            </HBox>
+            <Label />
+            <HBox prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <RadioButton fx:id="radioName" mnemonicParsing="false" prefHeight="49.0" prefWidth="100.0" text="TypeName" textFill="WHITE">
+                     <font>
+                        <Font name="Bodoni MT Condensed" size="18.0" />
+                     </font>
+                  </RadioButton>
+                  <TextField fx:id="TypeName" alignment="CENTER" prefHeight="50.0" prefWidth="180.0" promptText="No Restrictions" />
+               </children>
+            </HBox>
+            <Label layoutX="10.0" layoutY="60.0" />
+            <HBox prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <RadioButton fx:id="radioQuan" mnemonicParsing="false" prefHeight="54.0" prefWidth="100.0" text="Quantity" textFill="WHITE">
+                     <font>
+                        <Font name="Bodoni MT Condensed" size="18.0" />
+                     </font>
+                  </RadioButton>
+                  <TextField fx:id="Quantity" alignment="CENTER" prefHeight="50.0" prefWidth="180.0" promptText="Only Digits" />
+               </children>
+            </HBox>
+            <Label layoutX="10.0" layoutY="60.0" />
+            <HBox prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <RadioButton fx:id="radioDate" mnemonicParsing="false" onAction="#radioSelected" prefHeight="60.0" prefWidth="100.0" text="ExpireDate" textFill="WHITE">
+                     <font>
+                        <Font name="Bodoni MT Condensed" size="18.0" />
+                     </font>
+                  </RadioButton>
+                  <DatePicker fx:id="ExpiredDate" prefHeight="50.0" prefWidth="180.0" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER" layoutX="251.0" layoutY="27.0" prefHeight="93.0" prefWidth="502.0">
+         <children>
+            <ImageView fitHeight="72.0" fitWidth="143.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons8-search-96.png" />
+               </image>
+            </ImageView>
+            <Label text="      " />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="72.0" prefWidth="279.0" style="-fx-background-color: af4626;" text="Supplies Search Table" textFill="WHITE">
+               <font>
+                  <Font name="Bodoni MT Condensed" size="42.0" />
+               </font>
+            </Label>
+            <Label layoutX="100.0" layoutY="48.0" text="      " />
+            <ImageView fitHeight="72.0" fitWidth="143.0" layoutX="103.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons8-search-96.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
