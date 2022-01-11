@@ -32,10 +32,18 @@ public class MainMenu {
 
     @FXML
     void Meals(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText(null);
-        alert.setContentText("This Option is not valid in this moment please try later");
-        alert.showAndWait();
+        try {
+
+            root = FXMLLoader.load(getClass().getResource("OrdersWindow.fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+
+            stage.show();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     @FXML

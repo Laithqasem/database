@@ -43,18 +43,6 @@ public class SuppliesWindow implements Initializable {
 
     @FXML
     private ImageView updateIcon;
-   public static Connection connect=null;
-     Statement statement=null;
-      PreparedStatement preparedStatement=null;
-     ResultSet resultSet=null;
-    private static String dbURL;
-    private static ArrayList<Supplies> data;
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-
-
-    ActionEvent event;
 
     @FXML
     private TableColumn<Supplies,String> ExpiredDate;
@@ -70,7 +58,20 @@ public class SuppliesWindow implements Initializable {
 
     @FXML
     private TableView<Supplies> table;
+
      ObservableList<Supplies> list = FXCollections.observableArrayList();
+    public static Connection connect=null;
+    Statement statement=null;
+    PreparedStatement preparedStatement=null;
+    ResultSet resultSet=null;
+    private static String dbURL;
+    private static ArrayList<Supplies> data;
+    private Stage stage;
+    private Scene scene;
+    private Parent root;
+
+
+    ActionEvent event;
 
     @FXML
      public  void readData(ActionEvent event) {
