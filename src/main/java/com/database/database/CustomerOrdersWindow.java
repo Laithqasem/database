@@ -12,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,44 +21,34 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-public class SuppliesWindow implements Initializable {
-  @FXML
-    private ImageView BackIcon;
+public class CustomerOrdersWindow implements Initializable {
+
 
     @FXML
-    private ImageView deleteIcon;
+    private TableColumn<Orders, Integer> CID;
 
     @FXML
-    private ImageView insertIcon;
+    private TableColumn<Orders, Integer> Discount;
 
     @FXML
-    private ImageView oreganoLogo;
+    private TableColumn<Orders, Double> ElapsedTime;
 
     @FXML
-    private ImageView searchIcon;
+    private TableColumn<Orders, String> Notes;
 
     @FXML
-    private ImageView suppliesIcon;
+    private TableColumn<Orders, Integer> OID;
 
     @FXML
-    private ImageView updateIcon;
+    private TableColumn<Orders, Integer> TableNo;
 
     @FXML
-    private TableColumn<Supplies,String> ExpiredDate;
+    private TableView<Orders> table;
 
     @FXML
-    private TableColumn<Supplies,Integer> Quantity;
+    private TableColumn<Orders, Integer> totalPrice;
 
-    @FXML
-    private TableColumn<Supplies,Integer> TypeId;
-
-    @FXML
-    private TableColumn<Supplies,String> TypeName;
-
-    @FXML
-    private TableView<Supplies> table;
-
-     ObservableList<Supplies> list = FXCollections.observableArrayList();
+    ObservableList<Orders> list = FXCollections.observableArrayList();
     public static Connection connect=null;
     Statement statement=null;
     PreparedStatement preparedStatement=null;
@@ -74,22 +63,24 @@ public class SuppliesWindow implements Initializable {
     ActionEvent event;
 
     @FXML
-     public  void readData(ActionEvent event) {
+    public  void readData(ActionEvent event) {
 
         try {
 
             connectDataBase() ;
             statement=connect.createStatement();
-            resultSet= statement.executeQuery("select * from supplies ");
+            resultSet= statement.executeQuery("select * from orders ");
 
             while ( resultSet.next() ) {
 
-                list.add(new Supplies(
+                list.add(new Orders(
                         Integer.parseInt(resultSet.getString(1)),
-                        resultSet.getString(2),
+                        Integer.parseInt(resultSet.getString(2)),
                         Integer.parseInt(resultSet.getString(3)),
-                        resultSet.getString(4)));
-
+                        Integer.parseInt(resultSet.getString(4)),
+                        resultSet.getString(5),
+                        Double.parseDouble(resultSet.getString(4)),
+                        Integer.parseInt(resultSet.getString(1))));
 
             }
 
@@ -102,7 +93,7 @@ public class SuppliesWindow implements Initializable {
 
 
 
-       // list = FXCollections.observableArrayList(data);
+        // list = FXCollections.observableArrayList(data);
         for(int i = 0; i < list.size(); i++) {
             System.out.println(list.get(i).toString());
         }
@@ -122,7 +113,7 @@ public class SuppliesWindow implements Initializable {
             e.printStackTrace();
         }
     }
-    @FXML
+   /* @FXML
     void UpdateData(ActionEvent event) {
         try {
 
@@ -153,16 +144,20 @@ public class SuppliesWindow implements Initializable {
         }
     }
 
-
+*/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         readData( event);
 
-        TypeId.setCellValueFactory(new PropertyValueFactory<Supplies,Integer>("TypeId"));
-        TypeName.setCellValueFactory(new PropertyValueFactory<Supplies,String>("TypeName"));
-        Quantity.setCellValueFactory(new PropertyValueFactory<Supplies,Integer>("Quantity"));
-        ExpiredDate.setCellValueFactory(new PropertyValueFactory<Supplies,String>("ExpireDate"));
+
+        OID.setCellValueFactory(new PropertyValueFactory<Orders,Integer>("O_id"));
+        CID.setCellValueFactory(new PropertyValueFactory<Orders,Integer>("C_id"));
+        totalPrice.setCellValueFactory(new PropertyValueFactory<Orders,Integer>("total_price"));
+        Discount.setCellValueFactory(new PropertyValueFactory<Orders,Integer>("discount"));
+        Notes.setCellValueFactory(new PropertyValueFactory<Orders,String>("Notes"));
+        ElapsedTime.setCellValueFactory(new PropertyValueFactory<Orders,Double>("Elapsed_time"));
+        TableNo.setCellValueFactory(new PropertyValueFactory<Orders,Integer>("Table_No"));
         table.setItems(list);
     }
 
@@ -184,7 +179,7 @@ public class SuppliesWindow implements Initializable {
 
     }
 
-
+/*
     @FXML
     void Search(ActionEvent event) {
         try {
@@ -236,23 +231,6 @@ public class SuppliesWindow implements Initializable {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-    }
-    @FXML
-    void Stats(ActionEvent event) {
-
-        try {
-
-            root = FXMLLoader.load(getClass().getResource("SuppliesStat.fxml"));
-            stage=(Stage)((Node)event.getSource()).getScene().getWindow();
-            scene=new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
+    }*/
 
 }
-

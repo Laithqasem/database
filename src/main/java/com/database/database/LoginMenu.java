@@ -25,17 +25,17 @@ public class LoginMenu {
     private TextField UserName;
 
     @FXML
-    void linkedin(ActionEvent event) throws IOException {
+    void instagram(ActionEvent event) throws IOException {
 
-        String url = "https://www.linkedin.com/in/laith-qasem-797499179/";
-       Desktop.getDesktop().browse(java.net.URI.create(url));
+        String url = "https://www.instagram.com/oregano_tulkarm/";
+        Desktop.getDesktop().browse(java.net.URI.create(url));
     }
 
     @FXML
-    void github(ActionEvent event) throws URISyntaxException, IOException {
+    void facebook(ActionEvent event) throws URISyntaxException, IOException {
 
-        String url = "https://github.com/Laithqasem";
-    java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+        String url = "https://www.facebook.com/oreganotulkarm";
+        java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
     }
 
     @FXML

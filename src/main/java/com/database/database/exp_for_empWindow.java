@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 public class exp_for_empWindow implements Initializable {
 
    public static Connection connect=null;
-     Statement statement=null;
+    Statement statement=null;
       PreparedStatement preparedStatement=null;
      ResultSet resultSet=null;
     private static String dbURL;
@@ -51,7 +51,7 @@ public class exp_for_empWindow implements Initializable {
 
     @FXML
     private TableView<exp_for_emp> table;
-     ObservableList<exp_for_emp> list = FXCollections.observableArrayList();
+     public static ObservableList<exp_for_emp> list = FXCollections.observableArrayList();
 
     @FXML
      public  void readData(ActionEvent event) {
@@ -81,21 +81,7 @@ public class exp_for_empWindow implements Initializable {
         }
 
 
-        int totalEmployeesSalary=0;
-        int totalEmployeesOvertime=0;
-        int totalEmployeesExpenses=0;
-       // list = FXCollections.observableArrayList(data);
-        for(int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i).toString());
-            totalEmployeesSalary=totalEmployeesSalary+list.get(i).getBaseSalary();
-            totalEmployeesOvertime=totalEmployeesOvertime+list.get(i).getOvertimePrice();
 
-        }
-        totalEmployeesExpenses=totalEmployeesOvertime+totalEmployeesSalary;
-
-        System.out.println("totalEmployeesSalary: "+totalEmployeesSalary);
-        System.out.println("totalEmployeesOvertime: "+totalEmployeesOvertime);
-        System.out.println("totalEmployeesExpenses: "+totalEmployeesExpenses);
     }
     @FXML
     void Back(ActionEvent event) {
@@ -230,6 +216,19 @@ public class exp_for_empWindow implements Initializable {
         }
     }
 
+    @FXML
+    void expForempStat(ActionEvent event) {
+        try {
 
+            root = FXMLLoader.load(getClass().getResource("ExpForEmp.fxml"));
+            stage=(Stage)((Node)event.getSource()).getScene().getWindow();
+            scene=new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
 }
