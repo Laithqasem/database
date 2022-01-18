@@ -56,6 +56,7 @@ public class exp_for_empWindow implements Initializable {
     @FXML
      public  void readData(ActionEvent event) {
 
+
         try {
 
             connectDataBase() ;
@@ -79,7 +80,9 @@ public class exp_for_empWindow implements Initializable {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
+        for(int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i).toString());
+        }
 
 
     }
@@ -96,6 +99,7 @@ public class exp_for_empWindow implements Initializable {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        list.clear();
     }
 
 
@@ -136,6 +140,7 @@ public class exp_for_empWindow implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        list.clear();
         readData( event);
         BillId.setCellValueFactory(new PropertyValueFactory<exp_for_emp,Integer>("BillId"));
         EId.setCellValueFactory(new PropertyValueFactory<exp_for_emp,Integer>("EId"));

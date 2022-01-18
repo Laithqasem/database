@@ -234,5 +234,21 @@ public class customerWindow implements Initializable {
             e.printStackTrace();
         }
     }
+    @FXML
+    void stat(ActionEvent event) {
+        try {
+
+            root = FXMLLoader.load(getClass().getResource("customerStat.fxml"));
+            stage=(Stage)((Node)event.getSource()).getScene().getWindow();
+            scene=new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+
     }
 
