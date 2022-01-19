@@ -78,7 +78,7 @@
                         <Font name="Bodoni MT Condensed" size="24.0" />
                      </font>
                   </Button>
-                  <Button alignment="CENTER" layoutX="18.0" layoutY="269.0" mnemonicParsing="false" onAction="#goToexpforemp" prefHeight="20.0" prefWidth="248.0" style="-fx-background-color: af4626;" text="Employyes Expenses" textFill="WHITE">
+                  <Button alignment="CENTER" layoutX="18.0" layoutY="269.0" mnemonicParsing="false" onAction="#goToexpforemp" prefHeight="20.0" prefWidth="248.0" style="-fx-background-color: af4626;" text="Employees Expenses" textFill="WHITE">
                      <font>
                         <Font name="Bodoni MT Condensed" size="24.0" />
                      </font>
