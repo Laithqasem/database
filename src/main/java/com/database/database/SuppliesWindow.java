@@ -75,7 +75,7 @@ public class SuppliesWindow implements Initializable {
 
     @FXML
      public  void readData(ActionEvent event) {
-
+        list.clear();
         try {
 
             connectDataBase() ;
