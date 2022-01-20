@@ -73,7 +73,7 @@
                         <Image url="@icons8-back-arrow-400.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="Statistics" alignment="CENTER_RIGHT" layoutX="160.0" layoutY="260.0" mnemonicParsing="false" onAction="#DeleteButton" prefHeight="44.0" prefWidth="110.0" style="-fx-background-color: af4626;" text="   Statistics" textAlignment="RIGHT" textFill="WHITE">
+                  <Button fx:id="Statistics" alignment="CENTER_RIGHT" layoutX="160.0" layoutY="260.0" mnemonicParsing="false" onAction="#Stat" prefHeight="44.0" prefWidth="110.0" style="-fx-background-color: af4626;" text="   Statistics" textAlignment="RIGHT" textFill="WHITE">
                      <font>
                         <Font name="Bodoni MT Condensed" size="24.0" />
                      </font>

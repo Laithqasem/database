@@ -59,7 +59,7 @@ public class SuppliesWindow implements Initializable {
     @FXML
     private TableView<Supplies> table;
 
-     ObservableList<Supplies> list = FXCollections.observableArrayList();
+     public static ObservableList<Supplies> list = FXCollections.observableArrayList();
     public static Connection connect=null;
     Statement statement=null;
     PreparedStatement preparedStatement=null;

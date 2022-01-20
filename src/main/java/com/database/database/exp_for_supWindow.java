@@ -50,11 +50,11 @@ public class exp_for_supWindow implements Initializable {
 
     @FXML
     private TableView<exp_for_sup> table;
-     ObservableList<exp_for_sup> list = FXCollections.observableArrayList();
+    public static ObservableList<exp_for_sup> list = FXCollections.observableArrayList();
 
     @FXML
      public  void readData(ActionEvent event) {
-
+        list.clear();
         try {
 
             connectDataBase() ;
@@ -100,6 +100,7 @@ public class exp_for_supWindow implements Initializable {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        list.clear();
     }
 
 
@@ -219,7 +220,20 @@ public class exp_for_supWindow implements Initializable {
             e.printStackTrace();
         }
     }
+    @FXML
+    void Stat(ActionEvent event) {
+        try {
 
+            root = FXMLLoader.load(getClass().getResource("ExpForSupStat.fxml"));
+            stage=(Stage)((Node)event.getSource()).getScene().getWindow();
+            scene=new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
 
 }
