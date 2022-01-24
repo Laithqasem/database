@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="459.0" prefWidth="466.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.database.database.MealsWindow">
+    <TilePane alignment="CENTER" prefHeight="40.0" prefWidth="469.0" style="-fx-background-color: rgba(234,140,67,0.73);">
+        <Label text="Oregano Meals" textAlignment="CENTER" textFill="#cd1717">
+            <font>
+                <Font name="Franklin Gothic Book" size="25.0" />
+            </font>
+        </Label>
+    </TilePane>
+    <AnchorPane layoutY="40.0" prefHeight="419.0" prefWidth="469.0" style="-fx-background-color: brown;">
+        <TableView fx:id="mealsTable" opacity="0.81" prefHeight="343.0" prefWidth="343.0" AnchorPane.leftAnchor="5.0">
+            <columns>
+                <TableColumn fx:id="meal_id" prefWidth="81.3333410024643" text="Meal id" />
+                <TableColumn fx:id="name" prefWidth="187.99999237060547" text="Name" />
+                <TableColumn fx:id="Price" prefWidth="73.66668701171875" text="Price" />
+            </columns>
+        </TableView>
+        <Button layoutX="423.0" mnemonicParsing="false" onAction="#viewHome" opacity="0.89" prefHeight="0.0" prefWidth="0.0">
+            <graphic>
+                <ImageView fitHeight="29.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@home-logo-icon-0.jpg" />
+                </ImageView>
+            </graphic>
+        </Button>
+        <TextField fx:id="addMealId" layoutX="88.0" layoutY="351.0" opacity="0.89" prefHeight="25.0" prefWidth="61.0" promptText="meal_id" />
+        <Label layoutX="14.0" layoutY="355.0" text="New Meal" textFill="#e88b43">
+            <font>
+                <Font name="Arial" size="15.0" />
+            </font>
+        </Label>
+        <TextField fx:id="addName" alignment="CENTER" layoutX="159.0" layoutY="351.0" opacity="0.89" prefHeight="25.0" prefWidth="166.0" promptText="meal_name" />
+        <TextField fx:id="addPrice" alignment="CENTER" layoutX="332.0" layoutY="351.0" opacity="0.89" prefHeight="25.0" prefWidth="45.0" promptText="price" />
+        <Button fx:id="AddMeal" layoutX="66.0" layoutY="381.0" mnemonicParsing="false" opacity="0.8" prefWidth="106.0" text="Add new meal" textFill="#e88b43">
+            <font>
+                <Font name="Franklin Gothic Demi Italic" size="13.0" />
+            </font>
+        </Button>
+        <Button layoutX="242.0" layoutY="381.0" mnemonicParsing="false" onAction="#delete" opacity="0.8" prefWidth="106.0" text="Delete meal" textFill="#e88b43">
+            <font>
+                <Font name="Franklin Gothic Demi Italic" size="13.0" />
+            </font>
+        </Button>
+
+        <ImageView fitHeight="111.0" fitWidth="118.0" layoutX="343.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true" rotate="7.0">
+            <Image url="@burger-logo-removebg-preview.png" />
+        </ImageView>
+        <ImageView fitHeight="120.0" fitWidth="95.0" layoutX="359.0" layoutY="199.0" pickOnBounds="true" preserveRatio="true" rotate="8.9">
+            <Image url="@pizza-logo-removebg-preview.png" />
+        </ImageView>
+    </AnchorPane>
+</AnchorPane>

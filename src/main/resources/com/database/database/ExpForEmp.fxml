@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #fdc623;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.database.database.ExpForEmpStat">
+   <children>
+      <ImageView fitHeight="143.0" fitWidth="145.0" layoutX="9.0" layoutY="-33.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@oregano.png" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="189.0" layoutY="13.0" prefHeight="51.0" prefWidth="496.0" style="-fx-background-color: af4626;" text="Statistics" textFill="WHITE">
+         <font>
+            <Font name="Bodoni MT Condensed" size="42.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="BackIcon1" fitHeight="35.0" fitWidth="35.0" layoutX="201.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icons8-statistics-32.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="BackIcon11" fitHeight="35.0" fitWidth="35.0" layoutX="629.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icons8-statistics-32.png" />
+         </image>
+      </ImageView>
+      <Button alignment="BOTTOM_RIGHT" layoutX="14.0" layoutY="537.0" mnemonicParsing="false" onAction="#Back" prefHeight="44.0" prefWidth="102.0" style="-fx-background-color: af4626;" text="     Back" textFill="WHITE">
+         <font>
+            <Font name="Bodoni MT Condensed" size="24.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="42.0" fitWidth="35.0" layoutX="17.0" layoutY="542.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icons8-back-arrow-400.png" />
+         </image>
+      </ImageView>
+    <AnchorPane layoutX="3.0" layoutY="39.0" minHeight="0.0" minWidth="0.0" prefHeight="263.0" prefWidth="227.0">
+         <children>
+            <Label fx:id="totalEmployeesSalaryLabel" layoutX="15.0" layoutY="96.0" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: af4626;" textFill="WHITE">
+               <font>
+                  <Font name="Bodoni MT Condensed" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="totalEmployeesOvertimeLabel" layoutX="15.0" layoutY="144.0" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: af4626;" textFill="WHITE">
+               <font>
+                  <Font name="Bodoni MT Condensed" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="totalEmployeesExpensesLabel" layoutX="15.0" layoutY="191.0" prefHeight="40.0" prefWidth="185.0" style="-fx-background-color: af4626;" textFill="WHITE">
+               <font>
+                  <Font name="Bodoni MT Condensed" size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="43.0" layoutY="39.0" prefHeight="42.0" prefWidth="130.0" style="-fx-background-color: af4626;" text="General Statistics" textFill="WHITE">
+               <font>
+                  <Font name="Bodoni MT Condensed" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <ScrollPane layoutX="279.0" layoutY="351.0" prefHeight="241.0" prefWidth="518.0" style="-fx-background-color: af4626;">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="252.0" prefWidth="465.0">
+               <children>
+                  <BarChart fx:id="totalChart" layoutX="14.0" layoutY="-1.0" prefHeight="248.0" prefWidth="512.0" title="Total Employees Expenses">
+                    <xAxis>
+                      <CategoryAxis fx:id="EmpIdChartAxis" label="Employee ID" side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis fx:id="EmpExpenses" label="Total Employee Expenses" prefHeight="176.0" prefWidth="50.0" side="LEFT" />
+                    </yAxis>
+                  </BarChart>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <ScrollPane layoutX="282.0" layoutY="73.0" prefHeight="276.0" prefWidth="512.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="274.0" prefWidth="510.0">
+               <children>
+                  <PieChart fx:id="pieChart" layoutX="1.0" prefHeight="270.0" prefWidth="503.0" style="-fx-background-color: ffffff;" title="Total Employees Expenses" />
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <AnchorPane layoutX="9.0" layoutY="280.0" prefHeight="241.0" prefWidth="209.0">
+         <children>
+            <TextField fx:id="Id" layoutX="26.0" layoutY="68.0" prefHeight="25.0" prefWidth="80.0" promptText="Employee Id" />
+            <Button layoutX="119.0" layoutY="68.0" mnemonicParsing="false" onAction="#EmployeeExpenses" text="Calculate" />
+            <Label fx:id="employeeTotal" layoutX="7.0" layoutY="100.0" prefHeight="42.0" prefWidth="185.0" style="-fx-background-color: af4626;" textFill="WHITE">
+               <font>
+                  <Font name="Bodoni MT Condensed" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="EmployeeBase" layoutX="7.0" layoutY="150.0" prefHeight="42.0" prefWidth="185.0" style="-fx-background-color: af4626;" textFill="WHITE">
+               <font>
+                  <Font name="Bodoni MT Condensed" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="EmployeeOver" layoutX="7.0" layoutY="199.0" prefHeight="42.0" prefWidth="185.0" style="-fx-background-color: af4626;" textFill="WHITE">
+               <font>
+                  <Font name="Bodoni MT Condensed" size="18.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="35.0" layoutY="14.0" prefHeight="42.0" prefWidth="130.0" style="-fx-background-color: af4626;" text="Find An Employee" textFill="WHITE">
+               <font>
+                  <Font name="Bodoni MT Condensed" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
