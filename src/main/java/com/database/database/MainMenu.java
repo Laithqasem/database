@@ -41,7 +41,7 @@ public class MainMenu {
     void Meals(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("OrdersWindow.fxml"));
+            root = FXMLLoader.load(getClass().getResource("MealsPage.fxml"));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
