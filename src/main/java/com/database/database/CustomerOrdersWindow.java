@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -18,11 +19,16 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class CustomerOrdersWindow implements Initializable {
 
+    public static int O_id;
+
+    @FXML
+    private Button Statistics;
 
     @FXML
     private TableColumn<Orders, Integer> CID;
@@ -48,13 +54,13 @@ public class CustomerOrdersWindow implements Initializable {
     @FXML
     private TableColumn<Orders, Integer> totalPrice;
 
-    ObservableList<Orders> list = FXCollections.observableArrayList();
+    public static ObservableList<Orders> list = FXCollections.observableArrayList();
+    public static ObservableList<Orders> archivedOrders = FXCollections.observableArrayList();
     public static Connection connect=null;
     Statement statement=null;
     PreparedStatement preparedStatement=null;
     ResultSet resultSet=null;
     private static String dbURL;
-    private static ArrayList<Supplies> data;
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -99,11 +105,41 @@ public class CustomerOrdersWindow implements Initializable {
         }
 
     }
+
+    @FXML
+    void readyOrder(ActionEvent event) {
+        ObservableList<Orders> selectedRows = table.getSelectionModel().getSelectedItems();
+        ArrayList<Orders> rows = new ArrayList<>(selectedRows);
+        rows.forEach(row -> {
+            archivedOrders.add(row);
+            table.getItems().remove(row);
+            table.refresh();
+        });
+    }
+
     @FXML
     void Back(ActionEvent event) {
         try {
 
             root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
+            stage=(Stage)((Node)event.getSource()).getScene().getWindow();
+            scene=new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void showLines(ActionEvent event) {
+        ObservableList<Orders> selectedRows = table.getSelectionModel().getSelectedItems();
+        ArrayList<Orders> rows = new ArrayList<>(selectedRows);
+        rows.forEach(row -> O_id = row.getO_id());
+        try {
+
+            root = FXMLLoader.load(getClass().getResource("OrderMeals.fxml"));
             stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             scene=new Scene(root);
             stage.setScene(scene);
@@ -177,6 +213,21 @@ public class CustomerOrdersWindow implements Initializable {
         connect=DriverManager.getConnection("jdbc:mysql://localhost:3306/oreganodatabase?user=root&password=asd123==");
 
 
+    }
+
+    @FXML
+    void ordersStat(ActionEvent event) {
+        try {
+
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("OrdersStat.fxml")));
+            stage=(Stage)((Node)event.getSource()).getScene().getWindow();
+            scene=new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
 /*

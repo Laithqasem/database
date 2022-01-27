@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Objects;
 
 public class MainMenu {
     private Stage stage;
@@ -36,12 +37,28 @@ public class MainMenu {
         }
     }
 
+    @FXML
+    void sales(ActionEvent event) {
+        try {
+
+            root = FXMLLoader.load(getClass().getResource("salesWindow.fxml"));
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+
+            stage.show();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
     void Meals(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("MealsPage.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MealsPage.fxml")));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
