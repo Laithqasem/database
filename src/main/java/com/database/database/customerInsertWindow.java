@@ -13,19 +13,14 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class customerInsertWindow {
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-    ActionEvent event;
+
     public Connection connect=null;
 
     @FXML
     private TextField address;
-
-    @FXML
-    private TextField cid;
 
     @FXML
     private TextField cname;
@@ -36,11 +31,11 @@ public class customerInsertWindow {
     @FXML
     public void Back(ActionEvent event) {
 
-        System.out.println("BAck pressed2");
+        System.out.println("Back pressed");
         try {
-            root = FXMLLoader.load(getClass().getResource("customerWindow.fxml"));
-            stage=(Stage)((Node)event.getSource()).getScene().getWindow();
-            scene=new Scene(root);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("customerWindow.fxml")));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -51,18 +46,21 @@ public class customerInsertWindow {
     }
 
     @FXML
-    void Insert(ActionEvent event)  throws ClassNotFoundException, SQLException {
+    void Insert()  throws ClassNotFoundException, SQLException {
 
         SuppliesWindow.connectDataBase();
-        String sql="Insert into customer (C_id, C_name, Phone, Address) values (?,?,?,?)";
+        customer rc;
+
+        String sql="Insert into customer (C_name, Phone, Address) values (?,?,?)";
         PreparedStatement statment = SuppliesWindow.connect.prepareStatement(sql);
-        statment.setInt(1, Integer.valueOf(cid.getText()));
-        statment.setString(2, cname.getText());
-        statment.setInt(3, Integer.valueOf(phone.getText()));
-        statment.setString(4, address.getText());
+        statment.setString(1, cname.getText());
+        statment.setInt(2, Integer.parseInt(phone.getText()));
+        statment.setString(3, address.getText());
         statment.executeUpdate() ;
+        rc = new customer(LoginMenu.customers.get(LoginMenu.customers.size()-1).getC_id() + 1,
+                cname.getText(), Integer.parseInt(phone.getText()), address.getText());
+        LoginMenu.customers.add(rc);
         System.out.println("insert done");
-        cid.clear();
         cname.clear();
         phone.clear();
         address.clear();

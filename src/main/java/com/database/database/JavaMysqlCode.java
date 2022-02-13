@@ -92,19 +92,6 @@ public class JavaMysqlCode {
         }
     }
 
-    public static void updateEmpExpensesTable(String bill_id, String e_name,String target,String e_id) {
-
-        try {
-            getConnection();
-            ExecuteStatement("update  exp_for_emp set "+target+" = '"+e_name + "' where bill_id = '"+bill_id+"'and e_id = "+e_id+";");
-            connection.close();
-            System.out.println("Connection closed");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void insertData(Employee rc) {
 
         try {

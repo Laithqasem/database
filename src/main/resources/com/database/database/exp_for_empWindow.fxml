@@ -38,7 +38,7 @@
                         <Image url="@icons8-add-400.png" />
                      </image>
                   </ImageView>
-                  <Button alignment="CENTER_RIGHT" layoutX="160.0" layoutY="104.0" mnemonicParsing="false" onAction="#UpdateDataexp_for_emp" prefHeight="80.0" prefWidth="110.0" style="-fx-background-color: af4626;" text="Update" textFill="WHITE">
+                  <Button alignment="CENTER_RIGHT" layoutX="160.0" layoutY="104.0" mnemonicParsing="false" onAction="#UpdateDataExp_for_emp" prefHeight="80.0" prefWidth="110.0" style="-fx-background-color: af4626;" text="Update" textFill="WHITE">
                      <font>
                         <Font name="Bodoni MT Condensed" size="24.0" />
                      </font>
@@ -73,7 +73,7 @@
                         <Image url="@icons8-back-arrow-400.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="Statistics" alignment="CENTER_RIGHT" layoutX="160.0" layoutY="260.0" mnemonicParsing="false" onAction="#expForempStat" prefHeight="44.0" prefWidth="110.0" style="-fx-background-color: af4626;" text="   Statistics" textAlignment="RIGHT" textFill="WHITE">
+                  <Button fx:id="Statistics" alignment="CENTER_RIGHT" layoutX="160.0" layoutY="260.0" mnemonicParsing="false" onAction="#expForEmpStat" prefHeight="44.0" prefWidth="110.0" style="-fx-background-color: af4626;" text="   Statistics" textAlignment="RIGHT" textFill="WHITE">
                      <font>
                         <Font name="Bodoni MT Condensed" size="24.0" />
                      </font>

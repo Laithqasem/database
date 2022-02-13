@@ -15,22 +15,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.Objects;
 
 public class exp_for_supSearchWindow {
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-    ActionEvent event;
+
     public Connection connect=null;
     Statement statement=null;
-    PreparedStatement preparedStatement=null;
-    ResultSet resultSet=null;
-    String sqlQuery;
-    boolean radio[]=new boolean[4];
-    ObservableList<exp_for_sup> Searchlist = FXCollections.observableArrayList();
-    private static ArrayList<exp_for_sup> data;
-
+    boolean[] radio =new boolean[4];
+    ObservableList<exp_for_sup> SearchList = FXCollections.observableArrayList();
 
     @FXML
     private RadioButton radioBillId;
@@ -44,10 +36,8 @@ public class exp_for_supSearchWindow {
     @FXML
     private RadioButton radioTypeQuant;
 
-
     @FXML
     private TextField TypeQuant;
-
 
     @FXML
     private TableColumn<exp_for_sup, Integer> BillIdCol;
@@ -74,11 +64,11 @@ public class exp_for_supSearchWindow {
     private TableView<exp_for_sup> table;
 
     @FXML
-    void BAck(ActionEvent event) {
+    void Back(ActionEvent event) {
         try {
-            root = FXMLLoader.load(getClass().getResource("exp_for_supWindow.fxml"));
-            stage=(Stage)((Node)event.getSource()).getScene().getWindow();
-            scene=new Scene(root);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("exp_for_supWindow.fxml")));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -88,14 +78,14 @@ public class exp_for_supSearchWindow {
     }
 
     @FXML
-    void Search(ActionEvent event) throws SQLException, ClassNotFoundException {
+    void Search() throws SQLException, ClassNotFoundException {
 
          table.getItems().clear();
-        radioSelected(event);
+        radioSelected();
         System.out.println(radio[0]);
-        PreparedStatement statment = null;
+        PreparedStatement statment;
 
-        if((radio[0]==true && BillId.getText().isEmpty())||(radio[1]==true && TypeId.getText().isEmpty())||(radio[2]==true && PricePerUnit.getText().isEmpty())||(radio[3]==true && TypeQuant.getText().isEmpty())){
+        if((radio[0] && BillId.getText().isEmpty())||(radio[1] && TypeId.getText().isEmpty())||(radio[2] && PricePerUnit.getText().isEmpty())||(radio[3] && TypeQuant.getText().isEmpty())){
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
@@ -110,47 +100,47 @@ public class exp_for_supSearchWindow {
              {
 
 
-             if(radio[0]==true && radio[2]==false&&radio[3]==false && radio[1]==false){
+             if(radio[0] && !radio[2] && !radio[3] && !radio[1]){
                 sql ="select * from exp_for_sup where BillId=? ";
                 statment = SuppliesWindow.connect.prepareStatement(sql);
-                 statment.setInt(1, Integer.valueOf(BillId.getText()));
-            }else if(radio[0]==false && radio[1]==true&&radio[3]==false && radio[2]==false){
+                 statment.setInt(1, Integer.parseInt(BillId.getText()));
+            }else if(!radio[0] && radio[1] && !radio[3] && !radio[2]){
                 sql ="select * from exp_for_sup where TypeId=? ";
                 statment = SuppliesWindow.connect.prepareStatement(sql);
-                statment.setInt(1, Integer.valueOf(TypeId.getText()));
-            }else if(radio[0]==false && radio[2]==true&&radio[1]==false && radio[3]==false){
+                statment.setInt(1, Integer.parseInt(TypeId.getText()));
+            }else if(!radio[0] && radio[2] && !radio[1] && !radio[3]){
                 sql ="select * from exp_for_sup where PricePerUnit=? ";
                 statment = SuppliesWindow.connect.prepareStatement(sql);
                 statment.setInt(1, Integer.parseInt(PricePerUnit.getText()));
-            }else if(radio[0]==false && radio[1]==false&&radio[2]==false && radio[3]==true){
+            }else if(!radio[0] && !radio[1] && !radio[2] && radio[3]){
                  sql ="select * from exp_for_sup where TypeQuant=? ";
                  statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(TypeQuant.getText()));
-            }else if(radio[0]==true && radio[1]==true&&radio[2]==false && radio[3]==false){
+            }else if(radio[0] && radio[1] && !radio[2] && !radio[3]){
                 sql ="select * from exp_for_sup where BillId=? AND TypeId=? ";
                 statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(BillId.getText()));
                  statment.setInt(2, Integer.parseInt(TypeId.getText()));
 
-            }else if(radio[0]==true && radio[1]==false&&radio[2]==true && radio[3]==false){
+            }else if(radio[0] && !radio[1] && radio[2] && !radio[3]){
                  sql ="select * from exp_for_sup where BillId=? AND PricePerUnit=? ";
                  statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(BillId.getText()));
                  statment.setInt(2, Integer.parseInt(PricePerUnit.getText()));
 
-             }else if(radio[0]==true && radio[1]==false&&radio[2]==false && radio[3]==true){
+             }else if(radio[0] && !radio[1] && !radio[2]){
                  sql ="select * from exp_for_sup where BillId=? AND TypeQuant=? ";
                  statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(BillId.getText()));
                  statment.setInt(2, Integer.parseInt(TypeQuant.getText()));
 
-             }else if(radio[0]==false && radio[1]==true&&radio[2]==true && radio[3]==false){
+             }else if(!radio[0] && radio[1] && radio[2] && !radio[3]){
                  sql ="select * from exp_for_sup where TypeId=? AND PricePerUnit=? ";
                  statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(TypeId.getText()));
                  statment.setInt(2, Integer.parseInt(PricePerUnit.getText()));
 
-             }else if(radio[0]==false && radio[1]==true&&radio[2]==false && radio[3]==true){
+             }else if(!radio[0] && radio[1] && !radio[2]){
                  sql ="select * from exp_for_sup where TypeId=? AND TypeQuant=? ";
                  statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(TypeId.getText()));
@@ -158,32 +148,32 @@ public class exp_for_supSearchWindow {
 
              }
 
-             else if(radio[0]==true && radio[1]==true&&radio[2]==true && radio[3]==false){
+             else if(radio[0] && radio[1] && radio[2] && !radio[3]){
                 sql ="select * from exp_for_sup where BillId=? AND TypeId=? AND PricePerUnit=? ";
                 statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(BillId.getText()));
-                 statment.setInt(2, Integer.valueOf(TypeId.getText()));
+                 statment.setInt(2, Integer.parseInt(TypeId.getText()));
                  statment.setInt(3, Integer.parseInt(PricePerUnit.getText()));
 
-             }else if(radio[0]==false && radio[1]==true&&radio[2]==true && radio[3]==true){
+             }else if(!radio[0] && radio[1]){
                  sql ="select * from exp_for_sup where TypeId=? AND PricePerUnit=? AND TypeQuant=? ";
                  statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(TypeId.getText()));
-                 statment.setInt(2, Integer.valueOf(PricePerUnit.getText()));
+                 statment.setInt(2, Integer.parseInt(PricePerUnit.getText()));
                  statment.setInt(3, Integer.parseInt(TypeQuant.getText()));
 
-             }else if(radio[0]==true && radio[1]==true&&radio[2]==false && radio[3]==true){
+             }else if(radio[0] && radio[1] && !radio[2]){
                  sql ="select * from exp_for_sup where BillId=? AND TypeId=? AND TypeQuant=? ";
                  statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(BillId.getText()));
-                 statment.setInt(2, Integer.valueOf(TypeId.getText()));
+                 statment.setInt(2, Integer.parseInt(TypeId.getText()));
                  statment.setInt(3, Integer.parseInt(TypeQuant.getText()));
 
-             }else if(radio[0]==true && radio[1]==false&&radio[2]==true && radio[3]==true){
+             }else if(radio[0] && !radio[1]){
                  sql ="select * from exp_for_sup where BillId=? AND PricePerUnit=? AND TypeQuant=? ";
                  statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(BillId.getText()));
-                 statment.setInt(2, Integer.valueOf(PricePerUnit.getText()));
+                 statment.setInt(2, Integer.parseInt(PricePerUnit.getText()));
                  statment.setInt(3, Integer.parseInt(TypeQuant.getText()));
 
              }else{
@@ -191,69 +181,45 @@ public class exp_for_supSearchWindow {
                  statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(BillId.getText()));
                  statment.setInt(2, Integer.parseInt(TypeId.getText()));
-                 statment.setInt(3, Integer.valueOf(PricePerUnit.getText()));
+                 statment.setInt(3, Integer.parseInt(PricePerUnit.getText()));
                  statment.setInt(4, Integer.parseInt(TypeQuant.getText()));
              }
-
 
             ResultSet resultSet=statment.executeQuery();
 
             while ( resultSet.next() ) {
 
-                Searchlist.add(new exp_for_sup(
+                SearchList.add(new exp_for_sup(
                         Integer.parseInt(resultSet.getString(1)),
                         Integer.parseInt(resultSet.getString(2)),
                         Integer.parseInt(resultSet.getString(3)),
                         Integer.parseInt(resultSet.getString(4)) ));
 
-
             }
-            BillIdCol.setCellValueFactory(new PropertyValueFactory<exp_for_sup,Integer>("BillId"));
-            TypeIdCol.setCellValueFactory(new PropertyValueFactory<exp_for_sup,Integer>("TypeId"));
-            PricePerUnitCol.setCellValueFactory(new PropertyValueFactory<exp_for_sup,Integer>("PricePerUnit"));
-            TypeQuantCol.setCellValueFactory(new PropertyValueFactory<exp_for_sup,Integer>("TypeQuant"));
-            table.setItems(Searchlist);
+            BillIdCol.setCellValueFactory(new PropertyValueFactory<>("BillId"));
+            TypeIdCol.setCellValueFactory(new PropertyValueFactory<>("TypeId"));
+            PricePerUnitCol.setCellValueFactory(new PropertyValueFactory<>("PricePerUnit"));
+            TypeQuantCol.setCellValueFactory(new PropertyValueFactory<>("TypeQuant"));
+            table.setItems(SearchList);
 
             BillId.clear();
             TypeId.clear();
             PricePerUnit.clear();
             TypeQuant.clear();
 
-
         }} catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-
-
-
-
-
-
     }
-
 
     @FXML
-    void radioSelected(ActionEvent event) {
+    void radioSelected() {
 
-        if(radioBillId.isSelected()){
-            radio[0]=true;
-        }else radio[0]=false;
-        if(radioTypeId.isSelected()){
-            radio[1]=true;
-
-        }else radio[1]=false;
-        if(radioPricePerUnit.isSelected()){
-            radio[2]=true;
-
-        }else radio[2]=false;
-        if(radioTypeQuant.isSelected()){
-            radio[3]=true;
-
-        }else radio[3]=false;
-
+        radio[0]= radioBillId.isSelected();
+        radio[1]= radioTypeId.isSelected();
+        radio[2]= radioPricePerUnit.isSelected();
+        radio[3]= radioTypeQuant.isSelected();
 
     }
-
 
 }

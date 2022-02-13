@@ -15,23 +15,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.Objects;
 
 public class ExpensesSearchWindow {
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-    ActionEvent event;
+
     public Connection connect=null;
     Statement statement=null;
-    PreparedStatement preparedStatement=null;
-    ResultSet resultSet=null;
-    String sqlQuery;
-    boolean radio[]=new boolean[3];
+    boolean[] radio =new boolean[3];
     ObservableList<Expenses> Searchlist = FXCollections.observableArrayList();
-    private static ArrayList<Expenses> data;
-
-
 
     @FXML
     private RadioButton radioBillDate;
@@ -41,8 +32,6 @@ public class ExpensesSearchWindow {
 
     @FXML
     private RadioButton radioTotalPay;
-
-
 
     @FXML
     private TextField BillId;
@@ -65,13 +54,12 @@ public class ExpensesSearchWindow {
     @FXML
     private TableView<Expenses> table;
 
-
     @FXML
     void BAck(ActionEvent event) {
         try {
-            root = FXMLLoader.load(getClass().getResource("ExpensesWindow.fxml"));
-            stage=(Stage)((Node)event.getSource()).getScene().getWindow();
-            scene=new Scene(root);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ExpensesWindow.fxml")));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -81,14 +69,14 @@ public class ExpensesSearchWindow {
     }
 
     @FXML
-    void Search(ActionEvent event) throws SQLException, ClassNotFoundException {
+    void Search() throws SQLException, ClassNotFoundException {
 
          table.getItems().clear();
-        radioSelected(event);
+        radioSelected();
 
         PreparedStatement statment = null;
 
-        if((radio[0]==true && BillId.getText().isEmpty())||(radio[1]==true && BillDate.getValue().toString().isEmpty())||(radio[2]==true && TotalPay.getText().isEmpty())){
+        if((radio[0] && BillId.getText().isEmpty())||(radio[1] && BillDate.getValue().toString().isEmpty())||(radio[2] && TotalPay.getText().isEmpty())){
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
@@ -101,27 +89,26 @@ public class ExpensesSearchWindow {
             statement=SuppliesWindow.connect.createStatement();
              String sql;
 
-            if(radio[0]==true){
+            if(radio[0]){
                 sql ="select * from expenses where BillId=? ";
                  statment = SuppliesWindow.connect.prepareStatement(sql);
-                statment.setInt(1, Integer.valueOf(BillId.getText()));
-            }else if(radio[0]==false && radio[2]==false&& radio[1]==true){
+                statment.setInt(1, Integer.parseInt(BillId.getText()));
+            }else if(!radio[2] && radio[1]){
                 sql ="select * from expenses where BillDate=? ";
                 statment = SuppliesWindow.connect.prepareStatement(sql);
                 statment.setString(1, BillDate.getValue().toString());
-            }else if(radio[0]==false && radio[1]==false && radio[2]==true){
+            }else if(!radio[1] && radio[2]){
                 sql ="select * from expenses where TotalPay=? ";
                 statment = SuppliesWindow.connect.prepareStatement(sql);
-                statment.setInt(1, Integer.valueOf(TotalPay.getText()));
+                statment.setInt(1, Integer.parseInt(TotalPay.getText()));
 
-            }else if(radio[0]==false && radio[1]==true&&radio[2]==true ){
+            }else if(radio[1]){
                 sql ="select * from expenses where BillDate=? AND TotalPay=? ";
                 statment = SuppliesWindow.connect.prepareStatement(sql);
-                statment.setInt(2, Integer.valueOf(TotalPay.getText()));
+                statment.setInt(2, Integer.parseInt(TotalPay.getText()));
                 statment.setString(1, BillDate.getValue().toString());
             }
-
-
+            assert statment != null;
             ResultSet resultSet=statment.executeQuery();
 
             while ( resultSet.next() ) {
@@ -130,51 +117,25 @@ public class ExpensesSearchWindow {
                         Integer.parseInt(resultSet.getString(1)),
                         resultSet.getString(2),
                         Integer.parseInt(resultSet.getString(3))));
-
-
             }
 
-            BillIdCol.setCellValueFactory(new PropertyValueFactory<Expenses,Integer>("BillId"));
-            BillDateCol.setCellValueFactory(new PropertyValueFactory<Expenses,String>("BillDate"));
-            TotalPayCol.setCellValueFactory(new PropertyValueFactory<Expenses,Integer>("TotalPay"));
+            BillIdCol.setCellValueFactory(new PropertyValueFactory<>("BillId"));
+            BillDateCol.setCellValueFactory(new PropertyValueFactory<>("BillDate"));
+            TotalPayCol.setCellValueFactory(new PropertyValueFactory<>("TotalPay"));
 
             table.setItems(Searchlist);
-
-
-
             BillId.clear();
             TotalPay.clear();
-
 
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-
-
-
-
-
-
     }
+
     @FXML
-    void radioSelected(ActionEvent event) {
-
-        if(radioBillId.isSelected()){
-            radio[0]=true;
-        }else radio[0]=false;
-        if(radioBillDate.isSelected()){
-            radio[1]=true;
-
-        }else radio[1]=false;
-        if(radioTotalPay.isSelected()){
-            radio[2]=true;
-
-        }else radio[2]=false;
-
-
+    void radioSelected() {
+        radio[0]= radioBillId.isSelected();
+        radio[1]= radioBillDate.isSelected();
+        radio[2]= radioTotalPay.isSelected();
     }
-
-
-
 }

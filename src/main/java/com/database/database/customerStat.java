@@ -4,27 +4,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
-import java.net.URL;
-import java.sql.*;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Properties;
-import java.util.ResourceBundle;
 
-public class customerStat implements Initializable {
-
-    @FXML
-    private ImageView BackIcon1;
-
-    @FXML
-    private ImageView BackIcon11;
-
-    @FXML
-    private Button Statistics;
+public class customerStat {
 
     @FXML
     private Label GC;
@@ -33,31 +28,32 @@ public class customerStat implements Initializable {
     private Label TS;
 
     @FXML
-    private Button Statistics3;
+    private Label LS;
 
     @FXML
     private Label TB;
 
+    @FXML
+    private Label avg;
+
     public static Connection connect = null;
+    /*
     Statement statement = null;
-    PreparedStatement preparedStatement = null;
+
     ResultSet resultSet = null;
     Statement statement2 = null;
     ResultSet resultSet2 = null;
     Statement statement3 = null;
     ResultSet resultSet3 = null;
-    private static String dbURL;
-    private ArrayList<String> Cust = new ArrayList<>();
-    private static ArrayList<Supplies> data;
-    public static ObservableList<Orders> orders = FXCollections.observableArrayList();
-    public static ObservableList<customer> customers = FXCollections.observableArrayList();
-    public static ObservableList<record> custOrders = FXCollections.observableArrayList();
-    public static ObservableList<OrderLine> orderLine = FXCollections.observableArrayList();
-    public static ObservableList<topSeller> topS = FXCollections.observableArrayList();
-    ActionEvent event;
-    public static int totalPrice = 0;
-    private int mealPrice;
 
+     */
+    private final ArrayList<String> Cust = new ArrayList<>();
+    //public static ObservableList<Orders> orders = FXCollections.observableArrayList();
+    //public static ObservableList<customer> customers = FXCollections.observableArrayList();
+    public static ObservableList<record> custOrders = FXCollections.observableArrayList();
+    //public static ObservableList<OrderLine> orderLine = FXCollections.observableArrayList();
+    public static ObservableList<topSeller> topS = FXCollections.observableArrayList();
+/*
     public void readData() {
 
         try {
@@ -76,9 +72,7 @@ public class customerStat implements Initializable {
 
             }
 
-
             statement2 = connect.createStatement();
-
             resultSet2 = statement2.executeQuery("select * from orders");
 
             while (resultSet2.next()) {
@@ -105,9 +99,7 @@ public class customerStat implements Initializable {
                         Integer.parseInt(resultSet3.getString(2)),
                         resultSet3.getString(3),
                         Integer.parseInt(resultSet3.getString(4))));
-
             }
-
 
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -115,19 +107,21 @@ public class customerStat implements Initializable {
 
     }
 
-    @FXML
-    void topB(ActionEvent event) {
+ */
 
-        int price = orders.get(0).getTotal_price();
-        for (int k = 1 ; k < orders.size() ; k++ ){
-            if (orders.get(k).getTotal_price() > price){
-                price = orders.get(k).getTotal_price();
+    @FXML
+    void topB() {
+
+        int price = LoginMenu.orders.get(0).getTotal_price();
+        for (int k = 1 ; k < LoginMenu.orders.size() ; k++ ){
+            if (LoginMenu.orders.get(k).getTotal_price() > price){
+                price = LoginMenu.orders.get(k).getTotal_price();
             }
         }
 
-        for (int i = 0 ; i < orders.size() ; i++){
-            if (orders.get(i).getTotal_price() == price){
-                int cid = orders.get(i).getC_id();
+        for (Orders order : LoginMenu.orders) {
+            if (order.getTotal_price() == price) {
+                int cid = order.getC_id();
                 String cname = findCust(cid);
                 Cust.add(cname);
 
@@ -137,33 +131,77 @@ public class customerStat implements Initializable {
             TB.setText(String.valueOf(Cust));
         else
             TB.setText(Cust.get(0));
-        System.out.println(Cust.toString());
+        System.out.println(Cust);
         Cust.clear();
 
     }
 
+    @FXML
+    void avgTime() {
+        int count = 0;
+        double totalTime = 0;
+        double avgT;
+        for(int i=0; i < LoginMenu.orders.size(); i++){
+            totalTime += LoginMenu.orders.get(i).getElapsed_time();
+            count ++;
+        }
 
+        avgT = totalTime / count;
+        avg.setText(String.format("%.3f%n", avgT));
+    }
 
     public void fillCust(){
-        for (int i = 0 ; i < customers.size() ; i++){
-            custOrders.add(new record(customers.get(i).getC_id(), 0));
+        for (com.database.database.customer customer : LoginMenu.customers) {
+            custOrders.add(new record(customer.getC_id(), 0));
         }
     }
     public void fillTop(){
-        for (int i = 0 ; i < CreateOrderController.meals.size(); i++ ){
-            topS.add(new topSeller(CreateOrderController.meals.get(i).getMeal_id(), 0));
+        for (int i = 0 ; i < LoginMenu.meals.size(); i++ ){
+            topS.add(new topSeller(LoginMenu.meals.get(i).getMeal_id(), 0));
         }
     }
 
     @FXML
-    void topSell(ActionEvent event) {
+    void leastSell() {
         fillTop();
-        for(int i=0; i < orderLine.size(); i++){
-            for(int j=0; j < topS.size(); j++){
-                if(orderLine.get(i).getM_id().equals(topS.get(j).getM_id())){
-                    topS.get(j).setQuantity(topS.get(j).getQuantity() + orderLine.get(i).getQuantity());
+        for (OrderLine line : LoginMenu.orderLines) {
+            for (topSeller top : topS) {
+                if (line.getM_id().equals(top.getM_id())) {
+                    top.setQuantity(top.getQuantity() + line.getQuantity());
                 }
             }
+        }
+
+        int minCount = topS.get(0).getQuantity();
+        for (int k = 1 ; k < topS.size() ; k++ ){
+            if (topS.get(k).getQuantity() < minCount){
+                minCount = topS.get(k).getQuantity();
+            }
+        }
+
+        for (topSeller top : topS) {
+            if (top.getQuantity() == minCount) {
+                String m_id = top.getM_id();
+                String cname = findMeal(m_id);
+
+                LS.setText(cname);
+            }
+        }
+    }
+
+    @FXML
+    void topSell() {
+        fillTop();
+        for (OrderLine line : LoginMenu.orderLines) {
+            for (topSeller top : topS) {
+                if (line.getM_id().equals(top.getM_id())) {
+                    top.setQuantity(top.getQuantity() + line.getQuantity());
+                }
+            }
+        }
+
+        for (topSeller t : topS){
+            System.out.println(t.getM_id() + " " + t.getQuantity());
         }
 
         int maxCount = topS.get(0).getQuantity();
@@ -173,37 +211,33 @@ public class customerStat implements Initializable {
             }
         }
 
-        for (int i = 0 ; i < topS.size() ; i++){
-            if (topS.get(i).getQuantity() == maxCount){
-                String m_id = topS.get(i).getM_id();
+        for (topSeller top : topS) {
+            if (top.getQuantity() == maxCount) {
+                String m_id = top.getM_id();
                 String cname = findMeal(m_id);
 
                 TS.setText(cname);
             }
         }
-
-
     }
 
     public String findMeal( String m_id){
-        for (int i = 0 ; i < CreateOrderController.meals.size() ; i++){
-            if (CreateOrderController.meals.get(i).getMeal_id().equals(m_id)){
-                return CreateOrderController.meals.get(i).getName();
+        for (int i = 0 ; i < LoginMenu.meals.size() ; i++){
+            if (LoginMenu.meals.get(i).getMeal_id().equals(m_id)){
+                return LoginMenu.meals.get(i).getName();
             }
         }
         return "";
     }
 
-
-
     @FXML
-    void goldCust(ActionEvent event) {
+    void goldCust() {
 
         fillCust();
-        for (int i = 0 ; i < orders.size() ; i++){
-            for (int j = 0 ; j < custOrders.size() ; j++){
-                if (orders.get(i).getC_id() == custOrders.get(j).getCid()){
-                    custOrders.get(j).setCount(custOrders.get(j).getCount() + 1);
+        for (Orders order : LoginMenu.orders) {
+            for (record custOrder : custOrders) {
+                if (order.getC_id() == custOrder.getCid()) {
+                    custOrder.setCount(custOrder.getCount() + 1);
                 }
             }
         }
@@ -214,9 +248,9 @@ public class customerStat implements Initializable {
             }
         }
 
-        for (int i = 0 ; i < custOrders.size() ; i++){
-            if (custOrders.get(i).getCount() == maxCount){
-                int cid = custOrders.get(i).getCid();
+        for (record custOrder : custOrders) {
+            if (custOrder.getCount() == maxCount) {
+                int cid = custOrder.getCid();
                 String cname = findCust(cid);
                 Cust.add(cname);
 
@@ -226,21 +260,21 @@ public class customerStat implements Initializable {
             GC.setText(String.valueOf(Cust));
         else
             GC.setText(Cust.get(0));
-        System.out.println(Cust.toString());
+        System.out.println(Cust);
         Cust.clear();
     }
     public String findCust(int cid){
-        for (int i = 0 ; i < customers.size() ; i++){
-            if (customers.get(i).getC_id() == cid){
-                return customers.get(i).getC_name();
+        for (com.database.database.customer customer : LoginMenu.customers) {
+            if (customer.getC_id() == cid) {
+                return customer.getC_name();
             }
         }
         return "";
     }
+
     public static void connectDataBase() throws ClassNotFoundException, SQLException {
 
-
-        dbURL = "jdbc:mysql://" + "127.0.0.1" + ":" + "3306" + "/" + "oreganodatabase" + "?verifyServerCertificate=false";
+        String dbURL = "jdbc:mysql://" + "127.0.0.1" + ":" + "3306" + "/" + "oreganodatabase" + "?verifyServerCertificate=false";
         Properties p = new Properties();
         p.setProperty("user", "root");
         p.setProperty("password", "asd123==");
@@ -249,14 +283,27 @@ public class customerStat implements Initializable {
         //Class.forName("com.mysql.jdbc.Driver");
 
         connect = DriverManager.getConnection (dbURL, p);
-        connect=DriverManager.getConnection("jdbc:mysql://localhost:3306/oreganodatabase?user=root&password=asd123==");
-
-
+        // connect=DriverManager.getConnection("jdbc:mysql://localhost:3306/oreganodatabase?user=root&password=asd123==");
     }
 
-
+    @FXML
+    void Back(ActionEvent event) {
+        System.out.println("Back pressed");
+        try {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("customerWindow.fxml")));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+/*
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         readData();
     }
+ */
 }

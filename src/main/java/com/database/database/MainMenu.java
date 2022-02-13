@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Objects;
 
 public class MainMenu {
@@ -20,12 +19,11 @@ public class MainMenu {
     private Scene scene;
     private Parent root;
 
-
     @FXML
     void Employees(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("employee-view.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("employee-view.fxml")));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -41,7 +39,7 @@ public class MainMenu {
     void sales(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("salesWindow.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("salesWindow.fxml")));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -74,7 +72,7 @@ public class MainMenu {
     void Orders(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("OrdersWindow.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("CreateOrdersWindow.fxml")));
             stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             scene=new Scene(root);
             stage.setScene(scene);
@@ -90,7 +88,7 @@ public class MainMenu {
     void Roles(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("role-view.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("role-view.fxml")));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -103,23 +101,24 @@ public class MainMenu {
     }
 
     @FXML
-    void instagram(ActionEvent event) throws IOException {
+    void instagram() throws IOException {
 
         String url = "https://www.instagram.com/oregano_tulkarm/";
         Desktop.getDesktop().browse(java.net.URI.create(url));
     }
 
     @FXML
-    void facebook(ActionEvent event) throws URISyntaxException, IOException {
+    void facebook() throws IOException {
 
         String url = "https://www.facebook.com/oreganotulkarm";
         java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
     }
+
     @FXML
     void Customer(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("customerWindow.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("customerWindow.fxml")));
             stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             scene=new Scene(root);
             stage.setScene(scene);
@@ -132,20 +131,11 @@ public class MainMenu {
 
     }
 
-
-
-
-
-
-
-
-
-
     @FXML
     void ExpensesWindow(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("expensesWindow.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("expensesWindow.fxml")));
             stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             scene=new Scene(root);
             stage.setScene(scene);
@@ -161,7 +151,7 @@ public class MainMenu {
     void SupplieWindow(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("SuppliesWindow.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("SuppliesWindow.fxml")));
             stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             scene=new Scene(root);
             stage.setScene(scene);

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="603.0" prefWidth="800.0" style="-fx-background-color: fdc623;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.database.database.MainMenu">
+<AnchorPane prefHeight="603.0" prefWidth="800.0" style="-fx-background-color: fdc623;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.database.database.MainMenu">
    <children>
       <AnchorPane layoutX="403.0" layoutY="8.0" prefHeight="600.0" prefWidth="400.0">
          <children>
@@ -31,7 +29,7 @@
                   <Font name="Bodoni MT Condensed Bold" size="24.0" />
                </font>
             </Button>
-            <Button layoutX="237.0" layoutY="370.0" mnemonicParsing="false" onAction="#Employees" prefHeight="80.0" prefWidth="120.0" style="-fx-background-color: af4626;" text="Employees" textFill="WHITE">
+            <Button layoutX="237.0" layoutY="366.0" mnemonicParsing="false" onAction="#Employees" prefHeight="80.0" prefWidth="120.0" style="-fx-background-color: af4626;" text="Employees" textFill="WHITE">
                <font>
                   <Font name="Bodoni MT Condensed Bold" size="24.0" />
                </font>
@@ -46,7 +44,7 @@
                   <Font name="Bodoni MT Condensed Bold" size="24.0" />
                </font>
             </Button>
-            <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="267.0" layoutY="340.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="267.0" layoutY="336.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@icons8-chef-64.png" />
                </image>
@@ -106,11 +104,16 @@
                   <Image url="@customer-feedback.png" />
                </image>
             </ImageView>
-            <Button layoutX="237.0" layoutY="475.0" mnemonicParsing="false" onAction="#sales" prefHeight="80.0" prefWidth="120.0" style="-fx-background-color: af4626;" text="المبيعات" textFill="WHITE">
+            <Button layoutX="237.0" layoutY="475.0" mnemonicParsing="false" onAction="#sales" prefHeight="80.0" prefWidth="120.0" style="-fx-background-color: af4626;" text="Sales" textFill="WHITE">
                <font>
                   <Font name="Bodoni MT Condensed Bold" size="24.0" />
                </font>
             </Button>
+            <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="267.0" layoutY="450.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons8-billing-for-the-hotel-expenses-and-invoices-72.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
       <AnchorPane layoutY="5.0" prefHeight="600.0" prefWidth="400.0">

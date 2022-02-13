@@ -20,23 +20,20 @@ import javafx.util.converter.IntegerStringConverter;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class MealsWindow implements Initializable {
-    public static Connection connect = null;
-    Statement statement = null;
-    PreparedStatement preparedStatement = null;
-    ResultSet resultSet = null;
-    private static String dbURL;
+    // public static Connection connect = null;
+    //Statement statement = null;
+    //ResultSet resultSet = null;
     public static Connection connection;
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-    ActionEvent event;
 
     @FXML
     private TableView<Meals> mealsTable;
@@ -55,12 +52,11 @@ public class MealsWindow implements Initializable {
     @FXML
     private Button AddMeal;
 
-    public static ObservableList<Meals> meals;
+    // public static ObservableList<Meals> meals = FXCollections.observableArrayList();
 
     public static void connectDataBase() throws ClassNotFoundException, SQLException {
 
-
-        dbURL = "jdbc:mysql://" + "127.0.0.1" + ":" + "3306" + "/" + "oreganodatabase" + "?verifyServerCertificate=false";
+        String dbURL = "jdbc:mysql://" + "127.0.0.1" + ":" + "3306" + "/" + "oreganodatabase" + "?verifyServerCertificate=false";
         Properties p = new Properties();
         p.setProperty("user", "root");
         p.setProperty("password", "asd123==");
@@ -68,18 +64,16 @@ public class MealsWindow implements Initializable {
         p.setProperty("autoReconnect", "true");
         //Class.forName("com.mysql.jdbc.Driver");
 
-        connect = DriverManager.getConnection (dbURL, p);
-        connect=DriverManager.getConnection("jdbc:mysql://localhost:3306/oreganodatabase?user=root&password=asd123==");
-
-
+        connection = DriverManager.getConnection (dbURL, p);
+        // connect=DriverManager.getConnection("jdbc:mysql://localhost:3306/oreganodatabase?user=root&password=asd123==");
     }
-
+/*
     public void readData() {
 
         try {
             connectDataBase() ;
-            statement = connect.createStatement();
-            resultSet = statement.executeQuery("select * from Meals ");
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("select * from meals");
 
             while (resultSet.next()) {
 
@@ -88,26 +82,17 @@ public class MealsWindow implements Initializable {
                         resultSet.getString(2),
                         Integer.parseInt(resultSet.getString(3))
                 ));
-
             }
-
-
-
-
-
-
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-
-
-
     }
+
+ */
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        readData();
+        //readData();
 
         if(meal_id != null && name != null && Price != null) {
             meal_id.setCellValueFactory(new PropertyValueFactory<>("meal_id"));
@@ -129,14 +114,14 @@ public class MealsWindow implements Initializable {
                                 t.getTablePosition().getRow()).setPrice(t.getNewValue()); //display only
                         updatePrice( t.getRowValue().getMeal_id(),t.getNewValue());
                     });
-            mealsTable.setItems(meals);
+            mealsTable.setItems(LoginMenu.meals);
 
             AddMeal.setOnAction((ActionEvent e) -> {
                 Meals rc;
                 rc = new Meals(addMealId.getText(),
                         addName.getText(),
                         Integer.parseInt(addPrice.getText()));
-                meals.add(rc);
+                LoginMenu.meals.add(rc);
                 //mainPage.meals.add(rc);
                 insert(rc);
                 addMealId.clear();
@@ -212,10 +197,10 @@ public class MealsWindow implements Initializable {
     }
 
     public void viewHome(ActionEvent event) throws IOException{
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Home-Page.fxml")));
-        scene = new Scene(root);
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainMenu.fxml")));
+        Scene scene = new Scene(root);
 
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
@@ -233,6 +218,5 @@ public class MealsWindow implements Initializable {
             System.out.println("SQL statement is not executed!");
         }
     }
-
 
 }

@@ -13,22 +13,15 @@ import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class ExpForEmpStat implements Initializable {
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-    @FXML
-    private ImageView BackIcon1;
 
-    @FXML
-    private ImageView BackIcon11;
     @FXML
     private Label EmployeeOver;
 
@@ -43,6 +36,7 @@ public class ExpForEmpStat implements Initializable {
 
     @FXML
     private Label totalEmployeesExpensesLabel;
+
     @FXML
     private BarChart<String, Number> totalChart;
 
@@ -60,13 +54,14 @@ public class ExpForEmpStat implements Initializable {
 
     @FXML
     private PieChart pieChart;
+
     @FXML
     void Back(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("exp_for_empWindow.fxml"));
-            stage=(Stage)((Node)event.getSource()).getScene().getWindow();
-            scene=new Scene(root);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("exp_for_empWindow.fxml")));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -74,18 +69,19 @@ public class ExpForEmpStat implements Initializable {
             e.printStackTrace();
         }
     }
+
     @FXML
-    void EmployeeExpenses(ActionEvent event) {
+    void EmployeeExpenses() {
         int id=Integer.parseInt(Id.getText());
 
         int totalExpensesForAnEmployee=0;
         int totalExpensesForAnEmployeeOver=0;
         int totalExpensesForAnEmployeeBase=0;
-        for(int i = 0; i < exp_for_empWindow.list.size(); i++) {
-            if(exp_for_empWindow.list.get(i).getEId()==id){
-                totalExpensesForAnEmployee=totalExpensesForAnEmployee+exp_for_empWindow.list.get(i).getOvertimePrice()+exp_for_empWindow.list.get(i).getBaseSalary();
-                totalExpensesForAnEmployeeBase=totalExpensesForAnEmployeeBase+exp_for_empWindow.list.get(i).getBaseSalary();
-                totalExpensesForAnEmployeeOver=totalExpensesForAnEmployeeOver+exp_for_empWindow.list.get(i).getOvertimePrice();
+        for(int i = 0; i < LoginMenu.expForEmps.size(); i++) {
+            if(LoginMenu.expForEmps.get(i).getEId()==id){
+                totalExpensesForAnEmployee=totalExpensesForAnEmployee+ LoginMenu.expForEmps.get(i).getOvertimePrice()+ LoginMenu.expForEmps.get(i).getBaseSalary();
+                totalExpensesForAnEmployeeBase=totalExpensesForAnEmployeeBase+ LoginMenu.expForEmps.get(i).getBaseSalary();
+                totalExpensesForAnEmployeeOver=totalExpensesForAnEmployeeOver+ LoginMenu.expForEmps.get(i).getOvertimePrice();
             }
         }
         EmployeeOver.setText("   OverTime expenses: "+totalExpensesForAnEmployeeOver);
@@ -97,28 +93,28 @@ public class ExpForEmpStat implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         int totalEmployeesSalary=0;
-        int totalEmployeesExpenses=0;
+        int totalEmployeesExpenses;
         int totalEmployeesOvertime=0;
-        for(int i = 0; i < exp_for_empWindow.list.size(); i++) {
-            totalEmployeesSalary=totalEmployeesSalary+exp_for_empWindow.list.get(i).getBaseSalary();
-            totalEmployeesOvertime=totalEmployeesOvertime+exp_for_empWindow.list.get(i).getOvertimePrice();
+        for(int i = 0; i < LoginMenu.expForEmps.size(); i++) {
+            totalEmployeesSalary=totalEmployeesSalary+ LoginMenu.expForEmps.get(i).getBaseSalary();
+            totalEmployeesOvertime=totalEmployeesOvertime+ LoginMenu.expForEmps.get(i).getOvertimePrice();
         }
 
-        totalEmployeesSalaryLabel.setText("   Total Employees Salaries: "+String.valueOf(totalEmployeesSalary));
+        totalEmployeesSalaryLabel.setText("   Total Employees Salaries: "+ totalEmployeesSalary);
         totalEmployeesExpenses=totalEmployeesOvertime+totalEmployeesSalary;
-        totalEmployeesExpensesLabel.setText("   Total Employees Expenses: "+String.valueOf(totalEmployeesExpenses));
-        totalEmployeesOvertimeLabel.setText("   Total Employees Overtime: "+String.valueOf(totalEmployeesOvertime));
+        totalEmployeesExpensesLabel.setText("   Total Employees Expenses: "+ totalEmployeesExpenses);
+        totalEmployeesOvertimeLabel.setText("   Total Employees Overtime: "+ totalEmployeesOvertime);
 
 
-       int[] listOfTotalExpenses=new int[exp_for_empWindow.list.size()];
-       int[] listOfTotalBaseSalary=new int[exp_for_empWindow.list.size()];
-       int[] listOfTotalovertime=new int[exp_for_empWindow.list.size()];
-       for (int i = 0; i < exp_for_empWindow.list.size(); i++) {
+       int[] listOfTotalExpenses=new int[LoginMenu.expForEmps.size()];
+       int[] listOfTotalBaseSalary=new int[LoginMenu.expForEmps.size()];
+       int[] listOfTotalovertime=new int[LoginMenu.expForEmps.size()];
+       for (int i = 0; i < LoginMenu.expForEmps.size(); i++) {
 
-            for (int j = i + 1; j < exp_for_empWindow.list.size(); j++) {
+            for (int j = i + 1; j < LoginMenu.expForEmps.size(); j++) {
 
-                if (exp_for_empWindow.list.get(j).getEId() < exp_for_empWindow.list.get(i).getEId()) {
-                    exp_for_empWindow.list.set(i, exp_for_empWindow.list.set(j, exp_for_empWindow.list.get(i)));
+                if (LoginMenu.expForEmps.get(j).getEId() < LoginMenu.expForEmps.get(i).getEId()) {
+                    LoginMenu.expForEmps.set(i, LoginMenu.expForEmps.set(j, LoginMenu.expForEmps.get(i)));
                 }
             }
         }
@@ -126,17 +122,15 @@ public class ExpForEmpStat implements Initializable {
        int flag=0;
         System.out.println("--------------------------------");
 
-
-        for(int i = 0; i < exp_for_empWindow.list.size(); i++) {
-            totalEmployeesSalary=exp_for_empWindow.list.get(i).getBaseSalary();
-            totalEmployeesOvertime=exp_for_empWindow.list.get(i).getOvertimePrice();
+        for(int i = 0; i < LoginMenu.expForEmps.size(); i++) {
+            totalEmployeesSalary= LoginMenu.expForEmps.get(i).getBaseSalary();
+            totalEmployeesOvertime= LoginMenu.expForEmps.get(i).getOvertimePrice();
             System.out.println("   "+totalEmployeesSalary+"   "+totalEmployeesOvertime);
-            for(int j = i+1; j < exp_for_empWindow.list.size(); j++) {
-                if(exp_for_empWindow.list.get(i).getEId()==exp_for_empWindow.list.get(j).getEId()){
-                    totalEmployeesSalary+=exp_for_empWindow.list.get(j).getBaseSalary();
-                    totalEmployeesOvertime+=exp_for_empWindow.list.get(j).getOvertimePrice();
+            for(int j = i+1; j < LoginMenu.expForEmps.size(); j++) {
+                if(LoginMenu.expForEmps.get(i).getEId()== LoginMenu.expForEmps.get(j).getEId()){
+                    totalEmployeesSalary+= LoginMenu.expForEmps.get(j).getBaseSalary();
+                    totalEmployeesOvertime+= LoginMenu.expForEmps.get(j).getOvertimePrice();
                     flag++;
-
                 }
             }
             listOfTotalExpenses[i]=totalEmployeesSalary+totalEmployeesOvertime;
@@ -145,10 +139,7 @@ public class ExpForEmpStat implements Initializable {
             i+=flag;
 
             flag=0;
-
         }
-
-
 
         XYChart.Series<String,Number> series = new XYChart.Series<>();
         XYChart.Series<String,Number> series2 = new XYChart.Series<>();
@@ -158,9 +149,9 @@ public class ExpForEmpStat implements Initializable {
         series3.setName("OverTime");
         for(int i = 0; i <listOfTotalExpenses.length; i++) {
             if(listOfTotalExpenses[i]!=0){
-                series.getData().add(new XYChart.Data<>(String.valueOf(  exp_for_empWindow.list.get(i).getEId()),listOfTotalExpenses[i]));
-                series2.getData().add(new XYChart.Data<>(String.valueOf(  exp_for_empWindow.list.get(i).getEId()),listOfTotalBaseSalary[i]));
-                series3.getData().add(new XYChart.Data<>(String.valueOf(  exp_for_empWindow.list.get(i).getEId()),listOfTotalovertime[i]));
+                series.getData().add(new XYChart.Data<>(String.valueOf(  LoginMenu.expForEmps.get(i).getEId()),listOfTotalExpenses[i]));
+                series2.getData().add(new XYChart.Data<>(String.valueOf(  LoginMenu.expForEmps.get(i).getEId()),listOfTotalBaseSalary[i]));
+                series3.getData().add(new XYChart.Data<>(String.valueOf(  LoginMenu.expForEmps.get(i).getEId()),listOfTotalovertime[i]));
 
             }
         }
@@ -174,9 +165,8 @@ public class ExpForEmpStat implements Initializable {
 
         for(int i=0; i<listOfTotalExpenses.length; i++){
             if(listOfTotalExpenses[i]!=0){
-                pieChartData.add(new PieChart.Data(String.valueOf(exp_for_empWindow.list.get(i).getEId()), listOfTotalExpenses[i]));
+                pieChartData.add(new PieChart.Data(String.valueOf(LoginMenu.expForEmps.get(i).getEId()), listOfTotalExpenses[i]));
             }
-
         }
         pieChartData.forEach(data ->
                 data.nameProperty().bind(
@@ -185,8 +175,6 @@ public class ExpForEmpStat implements Initializable {
                         )
                 )
         );
-
         pieChart.getData().addAll(pieChartData);
-
     }
 }

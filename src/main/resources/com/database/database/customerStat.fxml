@@ -1,64 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #fdc623;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.database.database.customerStat">
+<AnchorPane prefHeight="459.0" prefWidth="727.0" style="-fx-background-color: #fdc623;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.database.database.customerStat">
    <children>
-      <HBox layoutX="17.0" layoutY="123.0" prefHeight="72.0" prefWidth="498.0">
-         <children>
-            <Button fx:id="Statistics" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#goldCust" prefHeight="44.0" prefWidth="152.0" style="-fx-background-color: af4626;" text="Golden Customer" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font name="Bodoni MT Condensed" size="24.0" />
-               </font>
-            </Button>
-            <Label fx:id="GC" alignment="CENTER" prefHeight="42.0" prefWidth="237.0" style="-fx-background-color: af4626;" textAlignment="CENTER" textFill="WHITE">
-               <HBox.margin>
-                  <Insets left="100.0" right="5.0" />
-               </HBox.margin>
-               <font>
-                  <Font name="Bodoni MT Condensed" size="24.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="161.0" layoutY="13.0" prefHeight="72.0" prefWidth="279.0" style="-fx-background-color: af4626;" text="Statistics" textFill="WHITE">
+      <Button alignment="CENTER_RIGHT" layoutX="20.0" layoutY="101.0" mnemonicParsing="false" onAction="#goldCust" prefHeight="44.0" prefWidth="125.0" style="-fx-background-color: af4626;" text="Golden Customer" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Bodoni MT Condensed" size="20.0" />
+         </font>
+      </Button>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="187.0" layoutY="14.0" prefHeight="72.0" prefWidth="279.0" style="-fx-background-color: af4626;" text="Statistics" textFill="WHITE">
          <font>
             <Font name="Bodoni MT Condensed" size="42.0" />
          </font>
       </Label>
-      <ImageView fx:id="BackIcon1" fitHeight="25.0" fitWidth="27.0" layoutX="181.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="BackIcon1" fitHeight="25.0" fitWidth="27.0" layoutX="209.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@icons8-statistics-32.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="BackIcon11" fitHeight="25.0" fitWidth="27.0" layoutX="396.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="BackIcon11" fitHeight="25.0" fitWidth="27.0" layoutX="420.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@icons8-statistics-32.png" />
          </image>
       </ImageView>
-      <Button fx:id="Statistics2" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="195.0" mnemonicParsing="false" onAction="#topSell" prefHeight="44.0" prefWidth="106.0" style="-fx-background-color: af4626;" text="Top Seller" textAlignment="CENTER" textFill="WHITE">
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="20.0" layoutY="163.0" mnemonicParsing="false" onAction="#topSell" prefHeight="44.0" prefWidth="125.0" style="-fx-background-color: af4626;" text="Top Seller" textAlignment="CENTER" textFill="WHITE">
          <font>
-            <Font name="Bodoni MT Condensed" size="24.0" />
+            <Font name="Bodoni MT Condensed" size="20.0" />
          </font>
       </Button>
-      <Label fx:id="TS" alignment="CENTER" layoutX="266.0" layoutY="196.0" prefHeight="42.0" prefWidth="122.0" style="-fx-background-color: af4626;" textAlignment="CENTER" textFill="WHITE">
+      <Label fx:id="TS" alignment="CENTER" layoutX="161.0" layoutY="164.0" prefHeight="42.0" prefWidth="187.0" style="-fx-background-color: af4626;" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Bodoni MT Condensed" size="24.0" />
          </font>
       </Label>
-      <Button fx:id="Statistics3" alignment="CENTER_RIGHT" layoutX="14.0" layoutY="264.0" mnemonicParsing="false" onAction="#topB" prefHeight="44.0" prefWidth="137.0" style="-fx-background-color: af4626;" text="اغلى طلب" textAlignment="CENTER" textFill="WHITE">
+      <Button alignment="CENTER_RIGHT" layoutX="20.0" layoutY="221.0" mnemonicParsing="false" onAction="#topB" prefHeight="72.0" prefWidth="125.0" style="-fx-background-color: af4626;" text="Cust with top price" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Bodoni MT Condensed" size="20.0" />
+         </font>
+      </Button>
+      <Label fx:id="TB" alignment="CENTER" layoutX="161.0" layoutY="236.0" prefHeight="42.0" prefWidth="187.0" style="-fx-background-color: af4626;" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Bodoni MT Condensed" size="24.0" />
          </font>
+      </Label>
+      <Button alignment="CENTER_RIGHT" layoutX="16.0" layoutY="396.0" mnemonicParsing="false" onAction="#Back" prefHeight="51.0" prefWidth="106.0" style="-fx-background-color: af4626;" text="Back" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Bodoni MT Condensed" size="24.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="35.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons8-back-arrow-400.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </Button>
-      <Label fx:id="TB" alignment="CENTER" layoutX="266.0" layoutY="265.0" prefHeight="42.0" prefWidth="237.0" style="-fx-background-color: af4626;" textAlignment="CENTER" textFill="WHITE">
+      <Label fx:id="GC" alignment="CENTER" layoutX="162.0" layoutY="102.0" prefHeight="42.0" prefWidth="187.0" style="-fx-background-color: af4626;" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Bodoni MT Condensed" size="24.0" />
+         </font>
+      </Label>
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="381.0" layoutY="221.0" mnemonicParsing="false" onAction="#avgTime" prefHeight="72.0" prefWidth="125.0" style="-fx-background-color: af4626;" text="Avg time for orders" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Bodoni MT Condensed" size="20.0" />
+         </font>
+      </Button>
+      <Label fx:id="avg" alignment="CENTER" layoutX="523.0" layoutY="236.0" prefHeight="42.0" prefWidth="187.0" style="-fx-background-color: af4626;" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Bodoni MT Condensed" size="24.0" />
+         </font>
+      </Label>
+      <Button alignment="CENTER_RIGHT" layoutX="381.0" layoutY="99.0" mnemonicParsing="false" onAction="#goldCust" prefHeight="44.0" prefWidth="125.0" style="-fx-background-color: af4626;" text="Golden Customer" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Bodoni MT Condensed" size="20.0" />
+         </font>
+      </Button>
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="381.0" layoutY="161.0" mnemonicParsing="false" onAction="#leastSell" prefHeight="44.0" prefWidth="125.0" style="-fx-background-color: af4626;" text="Least Seller" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Bodoni MT Condensed" size="20.0" />
+         </font>
+      </Button>
+      <Label fx:id="LS" alignment="CENTER" layoutX="522.0" layoutY="162.0" prefHeight="42.0" prefWidth="187.0" style="-fx-background-color: af4626;" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Bodoni MT Condensed" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="GC1" alignment="CENTER" layoutX="523.0" layoutY="100.0" prefHeight="42.0" prefWidth="187.0" style="-fx-background-color: af4626;" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Bodoni MT Condensed" size="24.0" />
          </font>

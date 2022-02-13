@@ -15,23 +15,15 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.Objects;
 
 public class exp_for_empSearchWindow {
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-    ActionEvent event;
+
     public Connection connect=null;
     Statement statement=null;
-    PreparedStatement preparedStatement=null;
-    ResultSet resultSet=null;
-    String sqlQuery;
-    boolean radio[]=new boolean[4];
+
+    boolean[] radio =new boolean[4];
     ObservableList<exp_for_emp> Searchlist = FXCollections.observableArrayList();
-    private static ArrayList<exp_for_emp> data;
-
-
 
     @FXML
     private RadioButton radioBillId;
@@ -77,9 +69,9 @@ public class exp_for_empSearchWindow {
     @FXML
     void BAck(ActionEvent event) {
         try {
-            root = FXMLLoader.load(getClass().getResource("exp_for_empWindow.fxml"));
-            stage=(Stage)((Node)event.getSource()).getScene().getWindow();
-            scene=new Scene(root);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("exp_for_empWindow.fxml")));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -89,14 +81,14 @@ public class exp_for_empSearchWindow {
     }
 
     @FXML
-    void Search(ActionEvent event) throws SQLException, ClassNotFoundException {
+    void Search() throws SQLException, ClassNotFoundException {
 
          table.getItems().clear();
-        radioSelected(event);
+        radioSelected();
         System.out.println(radio[0]);
-        PreparedStatement statment = null;
+        PreparedStatement statment;
 
-        if((radio[0]==true && BillId.getText().isEmpty())||(radio[1]==true && EId.getText().isEmpty())||(radio[2]==true && BaseSalary.getText().isEmpty())||(radio[3]==true && OvertimePrice.getText().isEmpty())){
+        if((radio[0] && BillId.getText().isEmpty())||(radio[1] && EId.getText().isEmpty())||(radio[2] && BaseSalary.getText().isEmpty())||(radio[3] && OvertimePrice.getText().isEmpty())){
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText(null);
@@ -111,47 +103,47 @@ public class exp_for_empSearchWindow {
              {
 
 
-             if(radio[0]==true && radio[2]==false&&radio[3]==false && radio[1]==false){
+             if(radio[0] && !radio[2] && !radio[3] && !radio[1]){
                 sql ="select * from exp_for_emp where BillId=? ";
                 statment = SuppliesWindow.connect.prepareStatement(sql);
-                 statment.setInt(1, Integer.valueOf(BillId.getText()));
-            }else if(radio[0]==false && radio[1]==true&&radio[3]==false && radio[2]==false){
+                 statment.setInt(1, Integer.parseInt(BillId.getText()));
+            }else if(!radio[0] && radio[1] && !radio[3] && !radio[2]){
                 sql ="select * from exp_for_emp where EId=? ";
                 statment = SuppliesWindow.connect.prepareStatement(sql);
-                statment.setInt(1, Integer.valueOf(EId.getText()));
-            }else if(radio[0]==false && radio[2]==true&&radio[1]==false && radio[3]==false){
+                statment.setInt(1, Integer.parseInt(EId.getText()));
+            }else if(!radio[0] && radio[2] && !radio[1] && !radio[3]){
                 sql ="select * from exp_for_emp where BaseSalary=? ";
                 statment = SuppliesWindow.connect.prepareStatement(sql);
                 statment.setInt(1, Integer.parseInt(BaseSalary.getText()));
-            }else if(radio[0]==false && radio[1]==false&&radio[2]==false && radio[3]==true){
+            }else if(!radio[0] && !radio[1] && !radio[2] && radio[3]){
                  sql ="select * from exp_for_emp where OvertimePrice=? ";
                  statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(OvertimePrice.getText()));
-            }else if(radio[0]==true && radio[1]==true&&radio[2]==false && radio[3]==false){
+            }else if(radio[0] && radio[1] && !radio[2] && !radio[3]){
                 sql ="select * from exp_for_emp where BillId=? AND EId=? ";
                 statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(BillId.getText()));
                  statment.setInt(2, Integer.parseInt(EId.getText()));
 
-            }else if(radio[0]==true && radio[1]==false&&radio[2]==true && radio[3]==false){
+            }else if(radio[0] && !radio[1] && radio[2] && !radio[3]){
                  sql ="select * from exp_for_emp where BillId=? AND BaseSalary=? ";
                  statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(BillId.getText()));
                  statment.setInt(2, Integer.parseInt(BaseSalary.getText()));
 
-             }else if(radio[0]==true && radio[1]==false&&radio[2]==false && radio[3]==true){
+             }else if(radio[0] && !radio[1] && !radio[2]){
                  sql ="select * from exp_for_emp where BillId=? AND OvertimePrice=? ";
                  statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(BillId.getText()));
                  statment.setInt(2, Integer.parseInt(OvertimePrice.getText()));
 
-             }else if(radio[0]==false && radio[1]==true&&radio[2]==true && radio[3]==false){
+             }else if(!radio[0] && radio[1] && radio[2] && !radio[3]){
                  sql ="select * from exp_for_emp where EId=? AND BaseSalary=? ";
                  statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(EId.getText()));
                  statment.setInt(2, Integer.parseInt(BaseSalary.getText()));
 
-             }else if(radio[0]==false && radio[1]==true&&radio[2]==false && radio[3]==true){
+             }else if(!radio[0] && radio[1] && !radio[2]){
                  sql ="select * from exp_for_emp where EId=? AND OvertimePrice=? ";
                  statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(EId.getText()));
@@ -159,32 +151,32 @@ public class exp_for_empSearchWindow {
 
              }
 
-             else if(radio[0]==true && radio[1]==true&&radio[2]==true && radio[3]==false){
+             else if(radio[0] && radio[1] && radio[2] && !radio[3]){
                 sql ="select * from exp_for_emp where BillId=? AND EId=? AND BaseSalary=? ";
                 statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(BillId.getText()));
-                 statment.setInt(2, Integer.valueOf(EId.getText()));
+                 statment.setInt(2, Integer.parseInt(EId.getText()));
                  statment.setInt(3, Integer.parseInt(BaseSalary.getText()));
 
-             }else if(radio[0]==false && radio[1]==true&&radio[2]==true && radio[3]==true){
+             }else if(!radio[0] && radio[1]){
                  sql ="select * from exp_for_emp where EId=? AND BaseSalary=? AND OvertimePrice=? ";
                  statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(EId.getText()));
-                 statment.setInt(2, Integer.valueOf(BaseSalary.getText()));
+                 statment.setInt(2, Integer.parseInt(BaseSalary.getText()));
                  statment.setInt(3, Integer.parseInt(OvertimePrice.getText()));
 
-             }else if(radio[0]==true && radio[1]==true&&radio[2]==false && radio[3]==true){
+             }else if(radio[0] && radio[1] && !radio[2]){
                  sql ="select * from exp_for_emp where BillId=? AND EId=? AND OvertimePrice=? ";
                  statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(BillId.getText()));
-                 statment.setInt(2, Integer.valueOf(EId.getText()));
+                 statment.setInt(2, Integer.parseInt(EId.getText()));
                  statment.setInt(3, Integer.parseInt(OvertimePrice.getText()));
 
-             }else if(radio[0]==true && radio[1]==false&&radio[2]==true && radio[3]==true){
+             }else if(radio[0] && !radio[1]){
                  sql ="select * from exp_for_emp where BillId=? AND BaseSalary=? AND OvertimePrice=? ";
                  statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(BillId.getText()));
-                 statment.setInt(2, Integer.valueOf(BaseSalary.getText()));
+                 statment.setInt(2, Integer.parseInt(BaseSalary.getText()));
                  statment.setInt(3, Integer.parseInt(OvertimePrice.getText()));
 
              }else{
@@ -192,7 +184,7 @@ public class exp_for_empSearchWindow {
                  statment = SuppliesWindow.connect.prepareStatement(sql);
                  statment.setInt(1, Integer.parseInt(BillId.getText()));
                  statment.setInt(2, Integer.parseInt(EId.getText()));
-                 statment.setInt(3, Integer.valueOf(BaseSalary.getText()));
+                 statment.setInt(3, Integer.parseInt(BaseSalary.getText()));
                  statment.setInt(4, Integer.parseInt(OvertimePrice.getText()));
              }
 
@@ -209,10 +201,10 @@ public class exp_for_empSearchWindow {
 
 
             }
-            BillIdCol.setCellValueFactory(new PropertyValueFactory<exp_for_emp,Integer>("BillId"));
-            EIdCol.setCellValueFactory(new PropertyValueFactory<exp_for_emp,Integer>("EId"));
-                 BaseSalaryCol.setCellValueFactory(new PropertyValueFactory<exp_for_emp,Integer>("BaseSalary"));
-                 OvertimePriceCol.setCellValueFactory(new PropertyValueFactory<exp_for_emp,Integer>("OvertimePrice"));
+            BillIdCol.setCellValueFactory(new PropertyValueFactory<>("BillId"));
+            EIdCol.setCellValueFactory(new PropertyValueFactory<>("EId"));
+            BaseSalaryCol.setCellValueFactory(new PropertyValueFactory<>("BaseSalary"));
+            OvertimePriceCol.setCellValueFactory(new PropertyValueFactory<>("OvertimePrice"));
             table.setItems(Searchlist);
 
             BillId.clear();
@@ -225,36 +217,17 @@ public class exp_for_empSearchWindow {
             e.printStackTrace();
         }
 
-
-
-
-
-
-
     }
 
 
     @FXML
-    void radioSelected(ActionEvent event) {
+    void radioSelected() {
 
-        if(radioBillId.isSelected()){
-            radio[0]=true;
-        }else radio[0]=false;
-        if(radioEId.isSelected()){
-            radio[1]=true;
-
-        }else radio[1]=false;
-        if(radioBaseSalary.isSelected()){
-            radio[2]=true;
-
-        }else radio[2]=false;
-        if(radioOvertimePrice.isSelected()){
-            radio[3]=true;
-
-        }else radio[3]=false;
-
+        radio[0]= radioBillId.isSelected();
+        radio[1]= radioEId.isSelected();
+        radio[2]= radioBaseSalary.isSelected();
+        radio[3]= radioOvertimePrice.isSelected();
 
     }
-
 
 }

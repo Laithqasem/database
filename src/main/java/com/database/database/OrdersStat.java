@@ -1,6 +1,5 @@
 package com.database.database;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -8,12 +7,12 @@ public class OrdersStat {
     @FXML
     private Label avg;
     @FXML
-    void avgTime(ActionEvent event) {
+    void avgTime() {
         int count = 0;
         double totalTime = 0;
         double avgT;
-        for(int i=0; i < CustomerOrdersWindow.list.size(); i++){
-            totalTime += CustomerOrdersWindow.list.get(i).getElapsed_time();
+        for(int i=0; i < LoginMenu.orders.size(); i++){
+            totalTime += LoginMenu.orders.get(i).getElapsed_time();
             count ++;
         }
 

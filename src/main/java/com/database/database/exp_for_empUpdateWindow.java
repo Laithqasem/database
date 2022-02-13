@@ -12,13 +12,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.Objects;
 
 public class exp_for_empUpdateWindow {
 
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-    ActionEvent event;
     public Connection connect=null;
 
     @FXML
@@ -37,11 +34,11 @@ public class exp_for_empUpdateWindow {
     @FXML
     void Back(ActionEvent event) {
 
-        System.out.println("BAck pressed2");
+        System.out.println("Back pressed2");
         try {
-            root = FXMLLoader.load(getClass().getResource("exp_for_empWindow.fxml"));
-            stage=(Stage)((Node)event.getSource()).getScene().getWindow();
-            scene=new Scene(root);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("exp_for_empWindow.fxml")));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -52,7 +49,7 @@ public class exp_for_empUpdateWindow {
     }
 
     @FXML
-    void update(ActionEvent event) throws SQLException, ClassNotFoundException {
+    void update() throws SQLException, ClassNotFoundException {
 
 /* private int BillId;
         private int EId;
@@ -69,20 +66,18 @@ public class exp_for_empUpdateWindow {
                     SuppliesWindow.connectDataBase();
                     String sql="update exp_for_emp set BaseSalary=?,OvertimePrice=? where EId=? AND BillId=?";
                     PreparedStatement statment = SuppliesWindow.connect.prepareStatement(sql);
-                    statment.setInt(1, Integer.valueOf(updateBaseSalary.getText()));
-                    statment.setInt(2, Integer.valueOf(updateOvertimePrice.getText()));
-                    statment.setInt(3, Integer.valueOf(updateEId.getText()));
-                    statment.setInt(4, Integer.valueOf(updateBillId.getText()));
+                    statment.setInt(1, Integer.parseInt(updateBaseSalary.getText()));
+                    statment.setInt(2, Integer.parseInt(updateOvertimePrice.getText()));
+                    statment.setInt(3, Integer.parseInt(updateEId.getText()));
+                    statment.setInt(4, Integer.parseInt(updateBillId.getText()));
 
 
                     if(updateBaseSalary.getText().isEmpty()){
                         String temp = null;
-                        String sql2="select BaseSalary from exp_for_emp where BillId= "+updateBillId.getText()+" EId="+updateEId.getText();
 
-                        String SQL = sql2;
+                        String SQL = "select BaseSalary from exp_for_emp where BillId= "+updateBillId.getText()+" EId="+updateEId.getText();
                         Statement stmt2 = SuppliesWindow.connect.createStatement();
                         ResultSet rs = stmt2.executeQuery(SQL);
-
 
                         while (rs.next())
                             temp= rs.getString(1);
@@ -93,9 +88,8 @@ public class exp_for_empUpdateWindow {
                     if(updateOvertimePrice.getText().isEmpty()){
 
                         int temp = 0;
-                        String sql2="select OvertimePrice from exp_for_emp where BillId= "+updateBillId.getText()+" EId="+updateEId.getText();
 
-                        String SQL = sql2;
+                        String SQL = "select OvertimePrice from exp_for_emp where BillId= "+updateBillId.getText()+" EId="+updateEId.getText();
                         Statement stmt2 = SuppliesWindow.connect.createStatement();
                         ResultSet rs = stmt2.executeQuery(SQL);
 
@@ -114,8 +108,6 @@ public class exp_for_empUpdateWindow {
                     updateOvertimePrice.clear();
                     updateBaseSalary.clear();
 
-
-
                 }
                 catch(SQLException s) {
                     s.printStackTrace();
@@ -123,25 +115,19 @@ public class exp_for_empUpdateWindow {
 
                 }
 
-
                 System.out.println("Connection closed");
 
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            } catch (SQLException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
 
-
         }
 
-
+        assert updateEId != null;
         updateEId.clear();
         updateBillId.clear();
         updateOvertimePrice.clear();
         updateBaseSalary.clear();
-
-
 
     }
 

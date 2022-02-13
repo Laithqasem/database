@@ -1,5 +1,7 @@
 package com.database.database;
 
+//import javafx.collections.FXCollections;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,24 +20,20 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class exp_for_empWindow implements Initializable {
 
    public static Connection connect=null;
-    Statement statement=null;
-      PreparedStatement preparedStatement=null;
-     ResultSet resultSet=null;
+    //Statement statement=null;
+    //ResultSet resultSet=null;
     private static String dbURL;
-    private static ArrayList<Supplies> data;
+
     private Stage stage;
     private Scene scene;
     private Parent root;
-
-
-    ActionEvent event;
-
 
     @FXML
     private TableColumn<exp_for_emp,Integer> BillId;
@@ -51,17 +49,16 @@ public class exp_for_empWindow implements Initializable {
 
     @FXML
     private TableView<exp_for_emp> table;
-     public static ObservableList<exp_for_emp> list = FXCollections.observableArrayList();
+    public static ObservableList<exp_for_emp> list = FXCollections.observableArrayList();
 
     @FXML
-     public  void readData(ActionEvent event) {
-
+     public  void readData() {
 
         try {
 
             connectDataBase() ;
-            statement=connect.createStatement();
-            resultSet= statement.executeQuery("select * from exp_for_emp ");
+            Statement statement = connect.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from exp_for_emp ");
 
             while ( resultSet.next() ) {
 
@@ -70,27 +67,24 @@ public class exp_for_empWindow implements Initializable {
                         Integer.parseInt(resultSet.getString(2)),
                         Integer.parseInt(resultSet.getString(3)),
                         Integer.parseInt(resultSet.getString(4))));
-
-
             }
-
-
-
 
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        for(int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i).toString());
+        for (com.database.database.exp_for_emp exp_for_emp : list) {
+            System.out.println(exp_for_emp.toString());
         }
 
-
     }
+
+
+
     @FXML
     void Back(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("ExpensesWindow.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ExpensesWindow.fxml")));
             stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             scene=new Scene(root);
             stage.setScene(scene);
@@ -99,16 +93,14 @@ public class exp_for_empWindow implements Initializable {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        list.clear();
+        // list.clear();
     }
-
-
 
     @FXML
-    void UpdateDataexp_for_emp(ActionEvent event) {
+    void UpdateDataExp_for_emp(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("exp_for_empUpdate.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("exp_for_empUpdate.fxml")));
             stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             scene=new Scene(root);
             stage.setScene(scene);
@@ -118,14 +110,12 @@ public class exp_for_empWindow implements Initializable {
             e.printStackTrace();
         }
     }
-
-
 
     @FXML
     void insertData(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("exp_for_empInsertWindow.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("exp_for_empInsertWindow.fxml")));
             stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             scene=new Scene(root);
             stage.setScene(scene);
@@ -136,19 +126,17 @@ public class exp_for_empWindow implements Initializable {
         }
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         list.clear();
-        readData( event);
-        BillId.setCellValueFactory(new PropertyValueFactory<exp_for_emp,Integer>("BillId"));
-        EId.setCellValueFactory(new PropertyValueFactory<exp_for_emp,Integer>("EId"));
-        BaseSalary.setCellValueFactory(new PropertyValueFactory<exp_for_emp,Integer>("BaseSalary"));
-        OvertimePrice.setCellValueFactory(new PropertyValueFactory<exp_for_emp,Integer>("OvertimePrice"));
-        table.setItems(list);
+        readData();
+        BillId.setCellValueFactory(new PropertyValueFactory<>("BillId"));
+        EId.setCellValueFactory(new PropertyValueFactory<>("EId"));
+        BaseSalary.setCellValueFactory(new PropertyValueFactory<>("BaseSalary"));
+        OvertimePrice.setCellValueFactory(new PropertyValueFactory<>("OvertimePrice"));
+        table.setItems(LoginMenu.expForEmps);
     }
-
 
     public static void connectDataBase() throws ClassNotFoundException, SQLException {
 
@@ -172,7 +160,7 @@ public class exp_for_empWindow implements Initializable {
     void Search(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("exp_for_empSearchWindow.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("exp_for_empSearchWindow.fxml")));
             stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             scene=new Scene(root);
             stage.setScene(scene);
@@ -184,7 +172,7 @@ public class exp_for_empWindow implements Initializable {
     }
 
     @FXML
-    void DeleteButton(ActionEvent event)  {
+    void DeleteButton()  {
         ObservableList<exp_for_emp> selectedRows = table.getSelectionModel().getSelectedItems();
         ArrayList<exp_for_emp> rows = new ArrayList<>(selectedRows);
         rows.forEach(row -> {
@@ -214,18 +202,16 @@ public class exp_for_empWindow implements Initializable {
             connect.close();
             System.out.println("Connection closed");
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    void expForempStat(ActionEvent event) {
+    void expForEmpStat(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("ExpForEmp.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ExpForEmp.fxml")));
             stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             scene=new Scene(root);
             stage.setScene(scene);

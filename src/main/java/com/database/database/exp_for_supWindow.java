@@ -1,6 +1,5 @@
 package com.database.database;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,23 +17,18 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class exp_for_supWindow implements Initializable {
 
    public static Connection connect=null;
-     Statement statement=null;
-      PreparedStatement preparedStatement=null;
-     ResultSet resultSet=null;
-    private static String dbURL;
-    private static ArrayList<Supplies> data;
+   //Statement statement=null;
+   //ResultSet resultSet=null;
     private Stage stage;
     private Scene scene;
     private Parent root;
-
-
-    ActionEvent event;
 
     @FXML
     private TableColumn<exp_for_sup,Integer> BillId;
@@ -50,13 +44,12 @@ public class exp_for_supWindow implements Initializable {
 
     @FXML
     private TableView<exp_for_sup> table;
-    public static ObservableList<exp_for_sup> list = FXCollections.observableArrayList();
-
+    // public static ObservableList<exp_for_sup> list = FXCollections.observableArrayList();
+/*
     @FXML
-     public  void readData(ActionEvent event) {
+     public  void readData() {
         list.clear();
         try {
-
             connectDataBase() ;
             statement=connect.createStatement();
             resultSet= statement.executeQuery("select * from exp_for_sup ");
@@ -69,29 +62,23 @@ public class exp_for_supWindow implements Initializable {
                         Integer.parseInt(resultSet.getString(3)),
                         Integer.parseInt(resultSet.getString(4))));
 
-
             }
-
-
-
-
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-
-
-       // list = FXCollections.observableArrayList(data);
-        for(int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i).toString());
+       // expenses = FXCollections.observableArrayList(data);
+        for (com.database.database.exp_for_sup exp_for_sup : list) {
+            System.out.println(exp_for_sup.toString());
         }
 
     }
+
+ */
     @FXML
     void Back(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("ExpensesWindow.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ExpensesWindow.fxml")));
             stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             scene=new Scene(root);
             stage.setScene(scene);
@@ -100,16 +87,14 @@ public class exp_for_supWindow implements Initializable {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        list.clear();
+        // list.clear();
     }
-
-
 
     @FXML
     void UpdateDataExpForSup(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("exp_for_supUpdate.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("exp_for_supUpdate.fxml")));
             stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             scene=new Scene(root);
             stage.setScene(scene);
@@ -119,14 +104,12 @@ public class exp_for_supWindow implements Initializable {
             e.printStackTrace();
         }
     }
-
-
 
     @FXML
     void insertData(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("exp_for_supInsertWindow.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("exp_for_supInsertWindow.fxml")));
             stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             scene=new Scene(root);
             stage.setScene(scene);
@@ -137,23 +120,20 @@ public class exp_for_supWindow implements Initializable {
         }
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        readData( event);
-        BillId.setCellValueFactory(new PropertyValueFactory<exp_for_sup,Integer>("BillId"));
-        TypeId.setCellValueFactory(new PropertyValueFactory<exp_for_sup,Integer>("TypeId"));
-        PricePerUnit.setCellValueFactory(new PropertyValueFactory<exp_for_sup,Integer>("PricePerUnit"));
-        TypeQuant.setCellValueFactory(new PropertyValueFactory<exp_for_sup,Integer>("TypeQuant"));
-        table.setItems(list);
+        //readData();
+        BillId.setCellValueFactory(new PropertyValueFactory<>("BillId"));
+        TypeId.setCellValueFactory(new PropertyValueFactory<>("TypeId"));
+        PricePerUnit.setCellValueFactory(new PropertyValueFactory<>("PricePerUnit"));
+        TypeQuant.setCellValueFactory(new PropertyValueFactory<>("TypeQuant"));
+        table.setItems(LoginMenu.expForSups);
     }
-
 
     public static void connectDataBase() throws ClassNotFoundException, SQLException {
 
-
-        dbURL = "jdbc:mysql://" + "127.0.0.1" + ":" + "3306" + "/" + "oreganodatabase" + "?verifyServerCertificate=false";
+        String dbURL = "jdbc:mysql://" + "127.0.0.1" + ":" + "3306" + "/" + "oreganodatabase" + "?verifyServerCertificate=false";
         Properties p = new Properties();
         p.setProperty("user", "root");
         p.setProperty("password", "asd123==");
@@ -162,17 +142,14 @@ public class exp_for_supWindow implements Initializable {
         //Class.forName("com.mysql.jdbc.Driver");
 
         connect = DriverManager.getConnection (dbURL, p);
-        connect=DriverManager.getConnection("jdbc:mysql://localhost:3306/oreganodatabase?user=root&password=asd123==");
-
-
+        // connect=DriverManager.getConnection("jdbc:mysql://localhost:3306/oreganodatabase?user=root&password=asd123==");
     }
-
 
     @FXML
     void Search(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("exp_for_supSearchWindow.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("exp_for_supSearchWindow.fxml")));
             stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             scene=new Scene(root);
             stage.setScene(scene);
@@ -184,7 +161,7 @@ public class exp_for_supWindow implements Initializable {
     }
 
     @FXML
-    void DeleteButton(ActionEvent event)  {
+    void DeleteButton()  {
         ObservableList<exp_for_sup> selectedRows = table.getSelectionModel().getSelectedItems();
         ArrayList<exp_for_sup> rows = new ArrayList<>(selectedRows);
         rows.forEach(row -> {
@@ -193,6 +170,7 @@ public class exp_for_supWindow implements Initializable {
             table.refresh();
         });
     }
+
     private void deleteRow(exp_for_sup row) {
 
         try {
@@ -214,17 +192,16 @@ public class exp_for_supWindow implements Initializable {
             connect.close();
             System.out.println("Connection closed");
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
+
     @FXML
     void Stat(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("ExpForSupStat.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ExpForSupStat.fxml")));
             stage=(Stage)((Node)event.getSource()).getScene().getWindow();
             scene=new Scene(root);
             stage.setScene(scene);

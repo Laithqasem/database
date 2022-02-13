@@ -1,6 +1,5 @@
 package com.database.database;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,29 +12,19 @@ import javafx.scene.control.*;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class RoleView implements Initializable {
 
-    ObservableList<Role> list = FXCollections.observableArrayList();
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
+    //ObservableList<Role> list = FXCollections.observableArrayList();
 
-    @FXML
-    private Button DeleteButton;
-    @FXML
-    private Button AddButton;
     @FXML
     private TableView<Role> roleTable;
     @FXML
@@ -54,13 +43,9 @@ public class RoleView implements Initializable {
     private TableColumn<Role,String> role_id;
     @FXML
     private TableColumn<Role, String> role_name;
-    @FXML
-    private TilePane title;
 
 
-
-
-    public void delete(ActionEvent actionEvent) {
+    public void delete() {
         ObservableList<Role> selectedRows = roleTable.getSelectionModel().getSelectedItems();
         ArrayList<Role> rows = new ArrayList<>(selectedRows);
         rows.forEach(row -> {
@@ -69,7 +54,7 @@ public class RoleView implements Initializable {
             roleTable.refresh();
         });
     }
-
+/*
     public void fillRoleTable() {
         JavaMysqlCode.getConnection();
         String connectQuery = "select role_id,role_name, base_salary, overtime_hours_price from Roles order by role_id";
@@ -93,14 +78,15 @@ public class RoleView implements Initializable {
         }
 
     }
+ */
 
     @FXML
     void back(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-            stage=(Stage)((Node)event.getSource()).getScene().getWindow();
-            scene=new Scene(root);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainMenu.fxml")));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -115,7 +101,7 @@ public class RoleView implements Initializable {
                 addRole_name.getText(),
                 Integer.parseInt(addBase_salary.getText()),
                 Integer.parseInt(addOvertime_hours_price.getText()) );
-        list.add(rc);
+        LoginMenu.roles.add(rc);
         JavaMysqlCode.insertData(rc);
         addRole_id.clear();
         addRole_name.clear();
@@ -141,8 +127,8 @@ public class RoleView implements Initializable {
         role_name.setCellValueFactory(new PropertyValueFactory<>("role_name"));
         base_salary.setCellValueFactory(new PropertyValueFactory<>("base_salary"));
         overtime_hours_price.setCellValueFactory(new PropertyValueFactory<>("overtime_hours_price"));
-        fillRoleTable();
-        roleTable.setItems(list);
+        //fillRoleTable();
+        roleTable.setItems(LoginMenu.roles);
         roleTable.setEditable(true);
         base_salary.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         overtime_hours_price.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));

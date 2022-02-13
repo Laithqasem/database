@@ -13,13 +13,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.Objects;
+
 public class SuppliesUpdateWindow {
 
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-    ActionEvent event;
     public Connection connect=null;
+
     @FXML
     private DatePicker updateexpireDate;
 
@@ -32,51 +31,45 @@ public class SuppliesUpdateWindow {
     @FXML
     private TextField updateTypeName;
 
-
     @FXML
     void Back(ActionEvent event) {
 
-        System.out.println("BAck pressed2");
+        System.out.println("Back pressed2");
         try {
-            root = FXMLLoader.load(getClass().getResource("SuppliesWindow.fxml"));
-            stage=(Stage)((Node)event.getSource()).getScene().getWindow();
-            scene=new Scene(root);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("SuppliesWindow.fxml")));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 
     @FXML
-    void update(ActionEvent event) throws SQLException, ClassNotFoundException {
-
+    void update() throws SQLException, ClassNotFoundException {
 
         if(updateTypeId!=null){
 
             try {
                 System.out.println("update  supplies set TypeName = '"+updateTypeName.getText() + "' where TypeId = "+updateTypeId.getText());
-
                 SuppliesWindow.connectDataBase();
                 try {
                     SuppliesWindow.connectDataBase();
                     String sql="update supplies set TypeName=?,Quantity=?,ExpireDate=? where TypeId=?";
                     PreparedStatement statment = SuppliesWindow.connect.prepareStatement(sql);
-                    statment.setInt(4, Integer.valueOf(updateTypeId.getText()));
+                    statment.setInt(4, Integer.parseInt(updateTypeId.getText()));
                     statment.setString(1, updateTypeName.getText());
                     statment.setString(2, updateQuantity.getText());
                     statment.setString(3, updateexpireDate.getValue().toString());
 
                     if(updateTypeName.getText().isEmpty()){
                         String temp = null;
-                        String sql2="select TypeName from supplies where TypeId="+updateTypeId.getText();
 
-                        String SQL = sql2;
+                        String SQL = "select TypeName from supplies where TypeId="+updateTypeId.getText();
                         Statement stmt2 = SuppliesWindow.connect.createStatement();
                         ResultSet rs = stmt2.executeQuery(SQL);
-
 
                         while (rs.next())
                             temp= rs.getString(1);
@@ -87,12 +80,10 @@ public class SuppliesUpdateWindow {
                     if(updateQuantity.getText().isEmpty()){
 
                         int temp = 0;
-                        String sql2="select Quantity from supplies where TypeId="+updateTypeId.getText();
 
-                        String SQL = sql2;
+                        String SQL = "select Quantity from supplies where TypeId="+updateTypeId.getText();
                         Statement stmt2 = SuppliesWindow.connect.createStatement();
                         ResultSet rs = stmt2.executeQuery(SQL);
-
 
                         while (rs.next())
                             temp= Integer.parseInt(rs.getString(1));
@@ -102,15 +93,12 @@ public class SuppliesUpdateWindow {
                         statment.setInt(    3, temp);
                     }
 
-
                     if(updateexpireDate.getValue().toString().isEmpty()){
                         String temp = null;
-                        String sql2="select ExpireDate from supplies where TypeId="+updateTypeId.getText();
 
-                        String SQL = sql2;
+                        String SQL = "select ExpireDate from supplies where TypeId="+updateTypeId.getText();
                         Statement stmt2 = SuppliesWindow.connect.createStatement();
                         ResultSet rs = stmt2.executeQuery(SQL);
-
 
                         while (rs.next())
                             temp= rs.getString(1);
@@ -122,8 +110,6 @@ public class SuppliesUpdateWindow {
                     updateTypeName.clear();
                     updateQuantity.clear();
 
-
-
                 }
                 catch(SQLException s) {
                     s.printStackTrace();
@@ -131,25 +117,18 @@ public class SuppliesUpdateWindow {
 
                 }
 
-
                 System.out.println("Connection closed");
 
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            } catch (SQLException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
 
-
         }
 
-
+        assert updateTypeId != null;
         updateTypeId.clear();
         updateTypeName.clear();
         updateQuantity.clear();
 
-
-
     }
-
 }

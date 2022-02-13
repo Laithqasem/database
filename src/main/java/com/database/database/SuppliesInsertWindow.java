@@ -14,17 +14,18 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Objects;
+
 public class SuppliesInsertWindow {
 
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-    ActionEvent event;
     public Connection connect=null;
+
     @FXML
     private TextField addQuantity;
+
     @FXML
     private DatePicker addexpireDate;
+
     @FXML
     private TextField addTypeId;
 
@@ -34,29 +35,28 @@ public class SuppliesInsertWindow {
     @FXML
     public void Back(ActionEvent event) {
 
-        System.out.println("BAck pressed2");
+        System.out.println("Back pressed");
         try {
-            root = FXMLLoader.load(getClass().getResource("SuppliesWindow.fxml"));
-            stage=(Stage)((Node)event.getSource()).getScene().getWindow();
-            scene=new Scene(root);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("SuppliesWindow.fxml")));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 
     @FXML
-    void Insert(ActionEvent event)  throws ClassNotFoundException, SQLException {
+    void Insert()  throws ClassNotFoundException, SQLException {
 
         SuppliesWindow.connectDataBase();
         String sql="Insert into supplies (TypeId, TypeName,Quantity, ExpireDate) values (?,?,?,?)";
         PreparedStatement statment = SuppliesWindow.connect.prepareStatement(sql);
-        statment.setInt(1, Integer.valueOf(addTypeId.getText()));
+        statment.setInt(1, Integer.parseInt(addTypeId.getText()));
         statment.setString(2, addTypeName.getText());
-        statment.setInt(3, Integer.valueOf(addQuantity.getText()));
+        statment.setInt(3, Integer.parseInt(addQuantity.getText()));
         statment.setString(4, addexpireDate.getValue().toString());
         statment.executeUpdate() ;
         System.out.println("insert done");
@@ -64,5 +64,4 @@ public class SuppliesInsertWindow {
         addTypeName.clear();
         addQuantity.clear();
     }
-
 }

@@ -24,7 +24,7 @@
             <TableColumn fx:id="ExpiredDateCol" prefWidth="120.0" text="ExpiredDate" />
         </columns>
       </TableView>
-      <Button layoutX="70.0" layoutY="533.0" mnemonicParsing="false" onAction="#BAck" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: af4626;" text="Back" textFill="WHITE">
+      <Button layoutX="70.0" layoutY="533.0" mnemonicParsing="false" onAction="#Back" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: af4626;" text="Back" textFill="WHITE">
          <font>
             <Font name="Bodoni MT Condensed" size="24.0" />
          </font>

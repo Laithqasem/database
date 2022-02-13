@@ -14,13 +14,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class ExpensesInsertWindow {
 
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-    ActionEvent event;
     public Connection connect=null;
     @FXML
     private TextField addBillId;
@@ -36,11 +33,11 @@ public class ExpensesInsertWindow {
     @FXML
     public void Back(ActionEvent event) {
 
-        System.out.println("BAck pressed2");
+        System.out.println("Back pressed2");
         try {
-            root = FXMLLoader.load(getClass().getResource("ExpensesWindow.fxml"));
-            stage=(Stage)((Node)event.getSource()).getScene().getWindow();
-            scene=new Scene(root);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ExpensesWindow.fxml")));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -52,14 +49,14 @@ public class ExpensesInsertWindow {
 
 
     @FXML
-    void Insert(ActionEvent event)  throws ClassNotFoundException, SQLException {
+    void Insert()  throws ClassNotFoundException, SQLException {
 
         SuppliesWindow.connectDataBase();
         String sql="Insert into expenses (BillId, BillDate,TotalPay) values (?,?,?)";
         PreparedStatement statment = SuppliesWindow.connect.prepareStatement(sql);
-        statment.setInt(1, Integer.valueOf(addBillId.getText()));
+        statment.setInt(1, Integer.parseInt(addBillId.getText()));
         statment.setString(2, addBillDate.getValue().toString());
-        statment.setInt(3, Integer.valueOf(addTotalPay.getText()));
+        statment.setInt(3, Integer.parseInt(addTotalPay.getText()));
         statment.executeUpdate() ;
         System.out.println("insert done");
 

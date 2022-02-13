@@ -1,6 +1,5 @@
 package com.database.database;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,8 +8,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
@@ -18,22 +19,14 @@ import javafx.util.converter.IntegerStringConverter;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class EmployeeView implements Initializable {
 
-    ObservableList<Employee> list = FXCollections.observableArrayList();
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-    @FXML
-    private Button DeleteButton;
-    @FXML
-    private Button AddButton;
+    //ObservableList<Employee> list = FXCollections.observableArrayList();
+
     @FXML
     private TextField addBirthdate;
     @FXML
@@ -61,14 +54,13 @@ public class EmployeeView implements Initializable {
     @FXML
     private TableColumn<Employee, String> r_id;
 
-
     @FXML
     void Back(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
-            stage=(Stage)((Node)event.getSource()).getScene().getWindow();
-            scene=new Scene(root);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainMenu.fxml")));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -76,7 +68,7 @@ public class EmployeeView implements Initializable {
             e.printStackTrace();
         }
     }
-    public void delete(ActionEvent actionEvent) {
+    public void delete() {
         ObservableList<Employee> selectedRows = employeeTable.getSelectionModel().getSelectedItems();
         ArrayList<Employee> rows = new ArrayList<>(selectedRows);
         rows.forEach(row -> {
@@ -85,7 +77,7 @@ public class EmployeeView implements Initializable {
             employeeTable.refresh();
         });
     }
-
+/*
     public void fillEmployeeTable() {
         JavaMysqlCode.getConnection();
         String connectQuery = "select e_id,e_name, birthdate, phone,r_id,overtime_hours from employees order by e_id";
@@ -111,6 +103,8 @@ public class EmployeeView implements Initializable {
 
     }
 
+ */
+
     public void addEmployee(){
         Employee rc;
         rc = new Employee(
@@ -120,7 +114,7 @@ public class EmployeeView implements Initializable {
                 Integer.parseInt(addPhone.getText()),
                 addR_id.getText(),
                 Integer.parseInt(addOvertime_hours.getText()));
-        list.add(rc);
+        LoginMenu.employees.add(rc);
         JavaMysqlCode.insertData(rc);
         addE_id.clear();
         addE_name.clear();
@@ -162,14 +156,13 @@ public class EmployeeView implements Initializable {
         overtime_hours.setCellValueFactory(new PropertyValueFactory<>("overtime_hours"));
         phone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         r_id.setCellValueFactory(new PropertyValueFactory<>("r_id"));
-        fillEmployeeTable();
-        employeeTable.setItems(list);
+        //fillEmployeeTable();
+        employeeTable.setItems(LoginMenu.employees);
         employeeTable.setEditable(true);
         phone.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         Birthdate.setCellFactory(TextFieldTableCell.forTableColumn());
         r_id.setCellFactory(TextFieldTableCell.forTableColumn());
         overtime_hours.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-
 
     }
 }

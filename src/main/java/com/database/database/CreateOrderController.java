@@ -11,13 +11,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -27,27 +25,6 @@ public class CreateOrderController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
-
-
-    @FXML
-    private TextField AddCid;
-
-    @FXML
-    private TextField AddDiscount;
-
-    @FXML
-    private TextField AddElapsedTime;
-
-    @FXML
-    private TextField AddNotes;
-
-    @FXML
-    private TextField AddTableNum;
-
-
-
-
-
 
     public void fillMeals() {
         mQuantity.add(new mealQuantity("B_01",0));
@@ -64,10 +41,10 @@ public class CreateOrderController implements Initializable {
         mQuantity.add(new mealQuantity("Z_01",0));
         mQuantity.add(new mealQuantity("Z_02",0));
     }
+
     public static void connectDataBase() throws ClassNotFoundException, SQLException {
 
-
-        dbURL = "jdbc:mysql://" + "127.0.0.1" + ":" + "3306" + "/" + "oreganodatabase" + "?verifyServerCertificate=false";
+        String dbURL = "jdbc:mysql://" + "127.0.0.1" + ":" + "3306" + "/" + "oreganodatabase" + "?verifyServerCertificate=false";
         Properties p = new Properties();
         p.setProperty("user", "root");
         p.setProperty("password", "asd123==");
@@ -76,28 +53,22 @@ public class CreateOrderController implements Initializable {
         //Class.forName("com.mysql.jdbc.Driver");
 
         connect = DriverManager.getConnection(dbURL, p);
-        connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/oreganodatabase?user=root&password=asd123==");
-
-
+        //connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/oreganodatabase?user=root&password=asd123==");
     }
 
-
     public static Connection connect = null;
-    Statement statement = null;
-    PreparedStatement preparedStatement = null;
-    ResultSet resultSet = null;
-    private static String dbURL;
-    private static ArrayList<Supplies> data;
+    //Statement statement = null;
+    //ResultSet resultSet = null;
 
-    ActionEvent event;
     public static int totalPrice = 0;
     private int mealPrice;
     public static ObservableList<mealQuantity> mQuantity = FXCollections.observableArrayList();
-    public static ObservableList<Meals> meals = FXCollections.observableArrayList();
-    public static ObservableList<Orders> orders = FXCollections.observableArrayList();
-    public static ObservableList<OrderLine> orderLines = FXCollections.observableArrayList();
+    //public static ObservableList<Meals> meals = FXCollections.observableArrayList();
+    //public static ObservableList<Orders> orders = FXCollections.observableArrayList();
+    //public static ObservableList<OrderLine> orderLines = FXCollections.observableArrayList();
 
-    public void readData(ActionEvent event) {
+/*
+    public void readData() {
 
         try {
 
@@ -146,6 +117,8 @@ public class CreateOrderController implements Initializable {
         }
 
     }
+
+ */
 
     @FXML
     private Spinner<Integer> B_01;
@@ -219,13 +192,12 @@ public class CreateOrderController implements Initializable {
     }
 
     @FXML
-    void createOrder(ActionEvent event) throws SQLException, ClassNotFoundException {
+    void createOrder(ActionEvent event){
 
-            readData(event);
-
+            //readData();
 
         if (B_01.getValue() > 0) {
-            for (Meals meal : meals) {
+            for (Meals meal : LoginMenu.meals) {
                 if (Objects.equals(meal.getMeal_id(), "B_01"))
                     mealPrice = meal.getPrice();
             }
@@ -237,7 +209,7 @@ public class CreateOrderController implements Initializable {
 
         }
         if (B_02.getValue() > 0) {
-            for (Meals meal : meals) {
+            for (Meals meal : LoginMenu.meals) {
                 if (Objects.equals(meal.getMeal_id(), "B_02"))
                     mealPrice = meal.getPrice();
             }
@@ -248,7 +220,7 @@ public class CreateOrderController implements Initializable {
             }
         }
         if (B_03.getValue() > 0) {
-            for (Meals meal : meals) {
+            for (Meals meal : LoginMenu.meals) {
                 if (Objects.equals(meal.getMeal_id(), "B_03"))
                     mealPrice = meal.getPrice();
             }
@@ -259,7 +231,7 @@ public class CreateOrderController implements Initializable {
             }
         }
         if (C_01.getValue() > 0) {
-            for (Meals meal : meals) {
+            for (Meals meal : LoginMenu.meals) {
                 if (Objects.equals(meal.getMeal_id(), "C_01"))
                     mealPrice = meal.getPrice();
             }
@@ -270,7 +242,7 @@ public class CreateOrderController implements Initializable {
             }
         }
         if (C_02.getValue() > 0) {
-            for (Meals meal : meals) {
+            for (Meals meal : LoginMenu.meals) {
                 if (Objects.equals(meal.getMeal_id(), "C_02"))
                     mealPrice = meal.getPrice();
             }
@@ -281,7 +253,7 @@ public class CreateOrderController implements Initializable {
             }
         }
         if (C_03.getValue() > 0) {
-            for (Meals meal : meals) {
+            for (Meals meal : LoginMenu.meals) {
                 if (Objects.equals(meal.getMeal_id(), "C_03"))
                     mealPrice = meal.getPrice();
             }
@@ -292,7 +264,7 @@ public class CreateOrderController implements Initializable {
             }
         }
         if (P_01.getValue() > 0) {
-            for (Meals meal : meals) {
+            for (Meals meal : LoginMenu.meals) {
                 if (Objects.equals(meal.getMeal_id(), "P_01"))
                     mealPrice = meal.getPrice();
 
@@ -305,7 +277,7 @@ public class CreateOrderController implements Initializable {
         }
         if (P_02.getValue() > 0) {
 
-            for (Meals meal : meals) {
+            for (Meals meal : LoginMenu.meals) {
                 if (Objects.equals(meal.getMeal_id(), "P_02"))
                     mealPrice = meal.getPrice();
             }
@@ -316,7 +288,7 @@ public class CreateOrderController implements Initializable {
             }
         }
         if (P_03.getValue() > 0) {
-            for (Meals meal : meals) {
+            for (Meals meal : LoginMenu.meals) {
                 if (Objects.equals(meal.getMeal_id(), "P_03"))
                     mealPrice = meal.getPrice();
             }
@@ -327,7 +299,7 @@ public class CreateOrderController implements Initializable {
             }
         }
         if (W_01.getValue() > 0) {
-            for (Meals meal : meals) {
+            for (Meals meal : LoginMenu.meals) {
                 if (Objects.equals(meal.getMeal_id(), "W_01"))
                     mealPrice = meal.getPrice();
             }
@@ -338,7 +310,7 @@ public class CreateOrderController implements Initializable {
             }
         }
         if (W_02.getValue() > 0) {
-            for (Meals meal : meals) {
+            for (Meals meal : LoginMenu.meals) {
                 if (Objects.equals(meal.getMeal_id(), "W_02"))
                     mealPrice = meal.getPrice();
             }
@@ -349,7 +321,7 @@ public class CreateOrderController implements Initializable {
             }
         }
         if (Z_01.getValue() > 0) {
-            for (Meals meal : meals) {
+            for (Meals meal : LoginMenu.meals) {
                 if (Objects.equals(meal.getMeal_id(), "Z_01"))
                     mealPrice = meal.getPrice();
             }
@@ -360,7 +332,7 @@ public class CreateOrderController implements Initializable {
             }
         }
         if (Z_02.getValue() > 0) {
-            for (Meals meal : meals) {
+            for (Meals meal : LoginMenu.meals) {
                 if (Objects.equals(meal.getMeal_id(), "Z_02"))
                     mealPrice = meal.getPrice();
             }
@@ -387,18 +359,12 @@ public class CreateOrderController implements Initializable {
 
         testInsert(event);
 
-
-
-
-
-
-
         System.out.println(totalPrice);
     }
     void testInsert(ActionEvent event) {
         try {
-            //orderinsertWindow.fxml
-            root = FXMLLoader.load(getClass().getResource("completeOrderWindowFinal.fxml"));
+            // orderinsertWindow.fxml
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("completeOrderWindowFinal.fxml")));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -410,16 +376,12 @@ public class CreateOrderController implements Initializable {
         }
 
     }
-    @FXML
-    void test(ActionEvent event) {
 
-
-    }
     @FXML
     void viewOrders(ActionEvent event) {
         try {
 
-            root = FXMLLoader.load(getClass().getResource("CustomersOrders.fxml"));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("CustomersOrders.fxml")));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
@@ -430,13 +392,20 @@ public class CreateOrderController implements Initializable {
             e.printStackTrace();
         }
 
-
-
     }
+
     @FXML
-    void Insert(ActionEvent event) throws SQLException, ClassNotFoundException {
-        System.out.println("asd");
+    void Back(ActionEvent event) {
+        try {
+
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("MainMenu.fxml")));
+            stage=(Stage)((Node)event.getSource()).getScene().getWindow();
+            scene=new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
-
-
 }

@@ -3,8 +3,8 @@ package com.database.database;
 public class Employee {
     private int e_id;
     private String e_name;
-    private int phone;
     private String birthdate;
+    private int phone;
     private int overtime_hours;
     private String r_id;
 

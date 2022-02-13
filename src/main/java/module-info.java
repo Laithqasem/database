@@ -11,6 +11,7 @@ module com.database.database {
     requires java.sql;
     requires java.desktop;
     requires javafx.base;
+    requires mysql.connector.java;
     opens com.database.database to javafx.fxml;
     exports com.database.database;
 }

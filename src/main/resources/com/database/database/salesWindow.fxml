@@ -57,15 +57,15 @@
                 <Image url="@icons8-back-arrow-400.png" />
             </image>
         </ImageView>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="266.0" prefHeight="35.0" prefWidth="198.0" style="-fx-background-color: af4626;" text="Total sales" textFill="WHITE">
-         <font>
-            <Font name="Bodoni MT Condensed" size="42.0" />
-         </font>
-      </Label>
-      <Label fx:id="total" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="331.0" prefHeight="35.0" prefWidth="198.0" style="-fx-background-color: af4626;" textFill="WHITE">
-         <font>
-            <Font name="Bodoni MT Condensed" size="42.0" />
-         </font>
-      </Label>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="266.0" prefHeight="35.0" prefWidth="198.0" style="-fx-background-color: af4626;" text="Total sales" textFill="WHITE">
+            <font>
+                <Font name="Bodoni MT Condensed" size="42.0" />
+            </font>
+        </Label>
+        <Label fx:id="total" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="331.0" prefHeight="35.0" prefWidth="198.0" style="-fx-background-color: af4626;" textFill="WHITE">
+            <font>
+                <Font name="Bodoni MT Condensed" size="42.0" />
+            </font>
+        </Label>
     </children>
 </AnchorPane>

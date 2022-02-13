@@ -7,21 +7,16 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.Objects;
 
 public class ExpForSupUpdate {
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-    ActionEvent event;
-    PreparedStatement statment;
+
+    PreparedStatement statement;
     public Connection connect=null;
-    @FXML
-    private ImageView background;
 
     @FXML
     private TextField updateBillId;
@@ -38,11 +33,11 @@ public class ExpForSupUpdate {
     @FXML
     void Back(ActionEvent event) {
 
-        System.out.println("BAck pressed2");
+        System.out.println("Back pressed2");
         try {
-            root = FXMLLoader.load(getClass().getResource("exp_for_supWindow.fxml"));
-            stage=(Stage)((Node)event.getSource()).getScene().getWindow();
-            scene=new Scene(root);
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("exp_for_supWindow.fxml")));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -52,11 +47,9 @@ public class ExpForSupUpdate {
     }
 
     @FXML
-    void update(ActionEvent event) {
+    void update() {
         if(updateTypeId!=null && updateBillId!=null ){
-
             try {
-
                 SuppliesWindow.connectDataBase();
                 try {
 
@@ -64,26 +57,25 @@ public class ExpForSupUpdate {
                     String sql="update exp_for_sup set TypeQuant=?,PricePerUnit=? where TypeId=? AND BillId=?";
                     if(updateTypeQuant.getText().isEmpty()){
                         sql="update exp_for_sup set PricePerUnit=? where TypeId=? AND BillId=?";
-                        statment = SuppliesWindow.connect.prepareStatement(sql);
-                        statment.setInt(1, Integer.valueOf(updatePricePerUnit.getText()));
-                        statment.setInt(2, Integer.valueOf(updateTypeId.getText()));
-                        statment.setInt(3, Integer.valueOf(updateBillId.getText()));
+                        statement = SuppliesWindow.connect.prepareStatement(sql);
+                        statement.setInt(1, Integer.parseInt(updatePricePerUnit.getText()));
+                        statement.setInt(2, Integer.parseInt(updateTypeId.getText()));
+                        statement.setInt(3, Integer.parseInt(updateBillId.getText()));
 
                     }else if(updatePricePerUnit.getText().isEmpty()){
 
                         sql="update exp_for_sup set TypeQuant=? where TypeId=? AND BillId=?";
-                        statment = SuppliesWindow.connect.prepareStatement(sql);
-                        statment.setInt(1, Integer.valueOf(updateTypeQuant.getText()));
-                        statment.setInt(2, Integer.valueOf(updateTypeId.getText()));
-                        statment.setInt(3, Integer.valueOf(updateBillId.getText()));
-
+                        statement = SuppliesWindow.connect.prepareStatement(sql);
+                        statement.setInt(1, Integer.parseInt(updateTypeQuant.getText()));
+                        statement.setInt(2, Integer.parseInt(updateTypeId.getText()));
+                        statement.setInt(3, Integer.parseInt(updateBillId.getText()));
 
                     }else{
-                        statment = SuppliesWindow.connect.prepareStatement(sql);
-                        statment.setInt(1, Integer.valueOf(updateTypeQuant.getText()));
-                        statment.setInt(2, Integer.valueOf(updatePricePerUnit.getText()));
-                        statment.setInt(3, Integer.valueOf(updateTypeId.getText()));
-                        statment.setInt(4, Integer.valueOf(updateBillId.getText()));
+                        statement = SuppliesWindow.connect.prepareStatement(sql);
+                        statement.setInt(1, Integer.parseInt(updateTypeQuant.getText()));
+                        statement.setInt(2, Integer.parseInt(updatePricePerUnit.getText()));
+                        statement.setInt(3, Integer.parseInt(updateTypeId.getText()));
+                        statement.setInt(4, Integer.parseInt(updateBillId.getText()));
                     }
 
 
@@ -100,7 +92,7 @@ public class ExpForSupUpdate {
                         while (rs.next())
                             temp= Integer.parseInt(rs.getString(1));
 
-                        statment.setInt(1, temp);
+                        statement.setInt(1, temp);
                     }
 
                     if(updateTypeQuant.getText().isEmpty()){
@@ -118,44 +110,31 @@ public class ExpForSupUpdate {
 
                         System.out.println(temp);
 
-                        statment.setInt(    3, temp);
+                        statement.setInt(    3, temp);
                     }
 */
-                    statment.executeUpdate() ;
+                    statement.executeUpdate() ;
                     updateTypeId.clear();
                     updateBillId.clear();
                     updateTypeQuant.clear();
                     updatePricePerUnit.clear();
-
-
-
                 }
                 catch(SQLException s) {
                     s.printStackTrace();
                     System.out.println("SQL statement is not executed!");
 
                 }
-
-
                 System.out.println("Connection closed");
 
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            } catch (SQLException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
-
-
         }
-
-
+        assert updateTypeId != null;
         updateTypeId.clear();
         updateBillId.clear();
         updateTypeQuant.clear();
         updatePricePerUnit.clear();
 
-
-
     }
-
 }
