@@ -27,8 +27,8 @@ import java.util.ResourceBundle;
 public class exp_for_empWindow implements Initializable {
 
    public static Connection connect=null;
-    //Statement statement=null;
-    //ResultSet resultSet=null;
+    Statement statement=null;
+    ResultSet resultSet=null;
     private static String dbURL;
 
     private Stage stage;
@@ -57,8 +57,8 @@ public class exp_for_empWindow implements Initializable {
         try {
 
             connectDataBase() ;
-            Statement statement = connect.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from exp_for_emp ");
+             statement = connect.createStatement();
+            resultSet = statement.executeQuery("select * from exp_for_emp ");
 
             while ( resultSet.next() ) {
 
